@@ -1,0 +1,23 @@
+[
+  {
+    "id": "33333333-3333-3333-3333-333333333333",
+    "sellerId": "eb_seller_1",
+    "sku": "EB-VINTAGE-LAMP-001",
+    "itemId": "EB-IT-5001",
+    "submissionId": "sub-eb-0001",
+    "status": "DISCOVERABLE",
+    "listingType": "FIXED_PRICE",
+    "startPrice": 1200,
+    "buyItNowPrice": 1500,
+    "condition": "USED_GOOD",
+    "quantity": 1,
+    "title": "Vintage Lamp",
+    "payload": {
+      "title": "Vintage Lamp",
+      "condition": "Used"
+    },
+    "webhookUrl": "http://localhost:4000/webhook",
+    "createdAt": "2026-05-22T12:00:00.000Z",
+    "updatedAt": "2026-05-22T12:05:00.000Z"
+  }
+]

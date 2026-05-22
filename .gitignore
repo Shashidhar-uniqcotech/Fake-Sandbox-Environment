@@ -1,0 +1,14 @@
+node_modules
+# Keep environment variables out of version control
+.env
+
+/src/generated/prisma
+
+# Generated frontend bundle. Edit src/frontend/app.ts instead.
+/public/dist
+
+# Local runtime logs
+*.log
+*.out
+*.err
+/src/logs

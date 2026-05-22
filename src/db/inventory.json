@@ -1,0 +1,14 @@
+[
+  {
+    "platform": "flipkart",
+    "sku": "TEST",
+    "quantity": 30,
+    "updatedAt": "2026-05-22T09:03:56.944Z"
+  },
+  {
+    "platform": "flipkart",
+    "sku": "TEST001",
+    "quantity": 29,
+    "updatedAt": "2026-05-22T08:58:22.206Z"
+  }
+]

@@ -1,0 +1,191 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ListingStatus {
+  DRAFT
+  SUBMITTED
+  VALIDATING
+  PROCESSING
+  DISCOVERABLE
+  VALIDATION_FAILED
+  PROCESSING_FAILED
+}
+
+enum EmulatorEventName {
+  LISTING_CREATED
+  LISTING_VALIDATED
+  LISTING_DISCOVERABLE
+  INVENTORY_UPDATED
+  WEBHOOK_DELIVERED
+  WEBHOOK_FAILED
+}
+
+enum ResourceType {
+  listing
+  inventory
+  webhook
+}
+
+enum WebhookDeliveryStatus {
+  PENDING
+  DELIVERED
+  FAILED
+}
+
+model Listing {
+  id           String        @id @default(uuid())
+  sellerId     String
+  sku          String
+  submissionId String        @unique
+  status       ListingStatus @default(SUBMITTED)
+  payload      Json
+  webhookUrl   String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@unique([sellerId, sku])
+  @@index([sku])
+  @@index([sellerId])
+  @@index([status])
+  @@map("listings")
+}
+
+model FlipkartListing {
+  id            String        @id @default(uuid())
+  sellerId      String
+  sku           String
+  channelSkuId  String?       // Flipkart channel SKU identifier
+  productId     String?       // marketplace product id
+  submissionId  String        @unique
+  status        ListingStatus @default(SUBMITTED)
+  price         Float?
+  quantity      Int?
+  hsn           String?
+  gstRate       Float?
+  fulfillment   String?
+  payload       Json
+  webhookUrl    String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@unique([sellerId, sku])
+  @@index([sku])
+  @@index([sellerId])
+  @@index([status])
+  @@map("listings_flipkart")
+}
+
+model WalmartListing {
+  id            String        @id @default(uuid())
+  sellerId      String
+  sku           String
+  itemId        String?       // Walmart item id
+  submissionId  String        @unique
+  status        ListingStatus @default(SUBMITTED)
+  price         Float?
+  quantity      Int?
+  upc           String?
+  mpn           String?
+  brand         String?
+  shippingTemplate String?
+  payload       Json
+  webhookUrl    String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@unique([sellerId, sku])
+  @@index([sku])
+  @@index([sellerId])
+  @@index([status])
+  @@map("listings_walmart")
+}
+
+model EbayListing {
+  id             String        @id @default(uuid())
+  sellerId       String
+  sku            String
+  itemId         String?       // eBay item id
+  submissionId   String        @unique
+  status         ListingStatus @default(SUBMITTED)
+  listingType    String?       // AUCTION, FIXED_PRICE, etc.
+  startPrice     Float?
+  buyItNowPrice  Float?
+  condition      String?
+  quantity       Int?
+  title          String?
+  payload        Json
+  webhookUrl     String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@unique([sellerId, sku])
+  @@index([sku])
+  @@index([sellerId])
+  @@index([status])
+  @@map("listings_ebay")
+}
+
+model InventoryItem {
+  id        String   @id @default(uuid())
+  platform  String   @default("flipkart")
+  sku       String
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([platform, sku])
+  @@index([platform])
+  @@index([sku])
+  @@map("inventory")
+}
+
+model EmulatorEvent {
+  id           String            @id @default(uuid())
+  event        EmulatorEventName
+  resourceType ResourceType
+  resourceId   String
+  payload      Json
+  createdAt    DateTime          @default(now())
+
+  @@index([event])
+  @@index([resourceType, resourceId])
+  @@index([createdAt])
+  @@map("events")
+}
+
+model WebhookDelivery {
+  id             String                @id @default(uuid())
+  url            String
+  event          String
+  payload        Json
+  status         WebhookDeliveryStatus @default(PENDING)
+  attempts       Int                   @default(0)
+  lastStatusCode Int?
+  lastError      String?
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+
+  @@index([status])
+  @@index([event])
+  @@index([createdAt])
+  @@map("webhook_deliveries")
+}
+
+model RequestLog {
+  id             String   @id @default(uuid())
+  method         String
+  url            String
+  timestamp      DateTime @default(now())
+  responseTimeMs Int
+  statusCode     Int
+
+  @@index([timestamp])
+  @@index([statusCode])
+  @@map("request_logs")
+}

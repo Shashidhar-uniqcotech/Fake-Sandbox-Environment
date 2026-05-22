@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Marketplace Sandbox Console</title>
+    <link rel="stylesheet" href="/app.css" />
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">M</div>
+        <div>
+          <h1>Marketplace Sandbox</h1>
+          <p>Flipkart, Walmart, and eBay</p>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Dashboard sections">
+        <button class="nav-button is-active" data-tab="overview">Overview</button>
+        <button class="nav-button" data-tab="listings">Listings</button>
+        <button class="nav-button" data-tab="inventory">Inventory</button>
+        <button class="nav-button" data-tab="events">Events</button>
+        <button class="nav-button" data-tab="webhooks">Webhooks</button>
+      </nav>
+
+      <div class="auth-panel">
+        <label for="tokenInput">API token</label>
+        <div class="token-row">
+          <input id="tokenInput" value="fake-token" />
+          <button id="saveTokenButton" class="icon-button" title="Save token" aria-label="Save token">
+            <span class="icon-save"></span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Local marketplace environment</p>
+          <h2>Operations Console</h2>
+        </div>
+        <div class="topbar-actions">
+          <button id="refreshButton" class="primary-button">
+            <span class="icon-refresh"></span>
+            Refresh
+          </button>
+          <span id="statusPill" class="mini-pill"></span>
+        </div>
+      </header>
+
+      <section id="overview" class="tab-panel is-active">
+        <div class="metric-grid">
+          <article class="metric">
+            <span>Total listings</span>
+            <strong id="metricTotalListings">0</strong>
+          </article>
+          <article class="metric">
+            <span>Discoverable</span>
+            <strong id="metricDiscoverable">0</strong>
+          </article>
+          <article class="metric">
+            <span>Inventory items</span>
+            <strong id="metricInventoryItems">0</strong>
+          </article>
+          <article class="metric">
+            <span>Webhook deliveries</span>
+            <strong id="metricWebhookDeliveries">0</strong>
+          </article>
+        </div>
+
+        <div class="split">
+          <section class="panel">
+            <div class="panel-heading">
+              <h3>Platform Summary</h3>
+            </div>
+            <div id="platformSummary" class="queue-grid"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <h3>Queue Metrics</h3>
+              <span id="queueDriver" class="mini-pill">local</span>
+            </div>
+            <div id="queueMetrics" class="queue-grid"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <h3>Recent Events</h3>
+            </div>
+            <div id="recentEvents" class="timeline"></div>
+          </section>
+        </div>
+      </section>
+
+      <section id="listings" class="tab-panel">
+        <div class="work-grid">
+          <section class="panel">
+            <div class="panel-heading">
+              <h3>Create Listing</h3>
+            </div>
+            <form id="listingForm" class="form">
+              <div class="form-row">
+                <label>Platform</label>
+                <select name="platform" id="platformSelect">
+                  <option value="flipkart">Flipkart</option>
+                  <option value="walmart">Walmart</option>
+                  <option value="ebay">eBay</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <label>Seller ID</label>
+                <input name="sellerId" value="SELLER123" required />
+              </div>
+              <div class="form-row">
+                <label>SKU</label>
+                <input name="sku" value="TEST001" required />
+              </div>
+              <div class="form-row">
+                <label>Product type</label>
+                <input name="productType" value="HEADPHONES" required />
+              </div>
+              <div class="form-row">
+                <label>Brand</label>
+                <input name="brand" value="Sony" required />
+              </div>
+              <div class="form-row">
+                <label>Price</label>
+                <input name="price" type="number" min="0" step="0.01" value="99.99" />
+              </div>
+              <div class="form-row">
+                <label>Quantity</label>
+                <input name="quantity" type="number" min="0" value="25" />
+              </div>
+              <div class="platform-fields" data-platform-fields="flipkart">
+                <div class="form-row">
+                  <label>Channel SKU ID</label>
+                  <input name="channelSkuId" value="FK-TEST001" />
+                </div>
+                <div class="form-row">
+                  <label>HSN</label>
+                  <input name="hsn" value="85183000" />
+                </div>
+                <div class="form-row">
+                  <label>GST rate</label>
+                  <input name="gstRate" type="number" min="0" step="0.01" value="18" />
+                </div>
+                <div class="form-row">
+                  <label>Fulfillment</label>
+                  <input name="fulfillment" value="seller_fulfilled" />
+                </div>
+              </div>
+              <div class="platform-fields" data-platform-fields="walmart">
+                <div class="form-row">
+                  <label>UPC</label>
+                  <input name="upc" value="012345678905" />
+                </div>
+                <div class="form-row">
+                  <label>MPN</label>
+                  <input name="mpn" value="WH-1000XM" />
+                </div>
+                <div class="form-row">
+                  <label>Shipping template</label>
+                  <input name="shippingTemplate" value="Standard" />
+                </div>
+              </div>
+              <div class="platform-fields" data-platform-fields="ebay">
+                <div class="form-row">
+                  <label>Listing type</label>
+                  <select name="listingType">
+                    <option value="FIXED_PRICE">Fixed price</option>
+                    <option value="AUCTION">Auction</option>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <label>Condition</label>
+                  <input name="condition" value="NEW" />
+                </div>
+                <div class="form-row">
+                  <label>Buy it now price</label>
+                  <input name="buyItNowPrice" type="number" min="0" step="0.01" value="109.99" />
+                </div>
+              </div>
+              <div class="form-row">
+                <label>Item name</label>
+                <input name="itemName" value="Wireless Bluetooth Headphones" required />
+              </div>
+              <div class="form-row">
+                <label>Webhook URL</label>
+                <input name="webhookUrl" placeholder="https://webhook.site/..." />
+              </div>
+              <button class="primary-button" type="submit">Submit Listing</button>
+            </form>
+          </section>
+
+          <section class="panel wide">
+            <div class="panel-heading">
+              <h3>Listings</h3>
+              <button id="reloadListingsButton" class="ghost-button">Reload</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Platform</th>
+                    <th>SKU</th>
+                    <th>Seller</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="listingsTable"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="inventory" class="tab-panel">
+        <div class="work-grid">
+          <section class="panel">
+            <div class="panel-heading">
+              <h3>Update Stock</h3>
+            </div>
+            <form id="inventoryForm" class="form">
+              <div class="form-row">
+                <label>Platform</label>
+                <select name="platform" id="inventoryPlatform">
+                  <option value="flipkart">Flipkart</option>
+                  <option value="walmart">Walmart</option>
+                  <option value="ebay">eBay</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <label>SKU</label>
+                <input name="sku" value="TEST001" required />
+              </div>
+              <div class="form-row">
+                <label>Quantity</label>
+                <input name="quantity" type="number" min="0" value="25" required />
+              </div>
+              <button class="primary-button" type="submit">Update Inventory</button>
+            </form>
+          </section>
+
+          <section class="panel wide">
+            <div class="panel-heading">
+              <h3>Lookup Inventory</h3>
+            </div>
+            <div class="lookup-row">
+              <select id="inventoryLookupPlatform">
+                <option value="flipkart">Flipkart</option>
+                <option value="walmart">Walmart</option>
+                <option value="ebay">eBay</option>
+              </select>
+              <input id="inventoryLookupSku" value="TEST001" />
+              <button id="inventoryLookupButton" class="primary-button">Lookup</button>
+            </div>
+            <pre id="inventoryResult" class="result-box">{}</pre>
+          </section>
+        </div>
+      </section>
+
+      <section id="events" class="tab-panel">
+        <section class="panel">
+          <div class="panel-heading">
+            <h3>Event Log</h3>
+          </div>
+          <div id="eventLog" class="timeline expanded"></div>
+        </section>
+      </section>
+
+      <section id="webhooks" class="tab-panel">
+        <section class="panel">
+          <div class="panel-heading">
+            <h3>Webhook History</h3>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Event</th>
+                  <th>Platform</th>
+                  <th>Status</th>
+                  <th>Attempts</th>
+                  <th>URL</th>
+                  <th>Updated</th>
+                </tr>
+              </thead>
+              <tbody id="webhooksTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="/dist/app.js"></script>
+  </body>
+</html>

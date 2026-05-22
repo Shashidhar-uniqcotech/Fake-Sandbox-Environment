@@ -1,0 +1,23 @@
+[
+  {
+    "id": "22222222-2222-2222-2222-222222222222",
+    "sellerId": "wm_seller_1",
+    "sku": "WM-BLUE-JEAN-001",
+    "itemId": "WM-ITEM-9001",
+    "submissionId": "sub-wm-0001",
+    "status": "DISCOVERABLE",
+    "price": 799.5,
+    "quantity": 5,
+    "upc": "123456789012",
+    "mpn": "MPN-9001",
+    "brand": "DenimCo",
+    "shippingTemplate": "Standard",
+    "payload": {
+      "title": "Blue Jeans",
+      "brand": "DenimCo"
+    },
+    "webhookUrl": "http://localhost:4000/webhook",
+    "createdAt": "2026-05-22T11:00:00.000Z",
+    "updatedAt": "2026-05-22T11:05:00.000Z"
+  }
+]

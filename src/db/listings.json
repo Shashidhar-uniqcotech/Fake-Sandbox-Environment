@@ -1,0 +1,412 @@
+[
+  {
+    "id": "41cf62ae-14f7-4e97-9003-eecc297153bb",
+    "submissionId": "19686bc0-85a3-448e-a8ff-5827719a057d",
+    "sellerId": "SELLER001",
+    "sku": "SKU001",
+    "status": "DISCOVERABLE",
+    "payload": {
+      "productType": "LAPTOP",
+      "attributes": {
+        "brand": [
+          {
+            "value": "Dell"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "XPS 13 Laptop"
+          }
+        ]
+      },
+      "webhookUrl": "https://webhook.site/your-unique-id"
+    },
+    "webhookUrl": "https://webhook.site/your-unique-id",
+    "createdAt": "2026-05-22T05:37:12.090Z",
+    "updatedAt": "2026-05-22T05:37:17.238Z"
+  },
+  {
+    "id": "eda8ae31-f8f2-45d1-8c7b-bbe8c394bcf0",
+    "submissionId": "ee628add-40b9-439f-88de-bcf12cd43b50",
+    "sellerId": "SELLER001",
+    "sku": "SKU009",
+    "status": "DISCOVERABLE",
+    "payload": {
+      "productType": "LAPTOP",
+      "attributes": {
+        "brand": [
+          {
+            "value": "Dell"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "XPS 13 Laptop"
+          }
+        ]
+      },
+      "webhookUrl": "https://webhook.site/your-unique-id"
+    },
+    "webhookUrl": "https://webhook.site/your-unique-id",
+    "createdAt": "2026-05-22T05:42:37.286Z",
+    "updatedAt": "2026-05-22T05:42:42.343Z"
+  },
+  {
+    "id": "7076640d-24ba-424d-8cbc-343785e3bd76",
+    "submissionId": "8b9ce9e9-8d61-4494-9a10-248620f4ff24",
+    "sellerId": "SELLER001",
+    "sku": "SKU009",
+    "status": "DISCOVERABLE",
+    "payload": {
+      "productType": "LAPTOP",
+      "attributes": {
+        "brand": [
+          {
+            "value": "Dell"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "XPS 13 Laptop"
+          }
+        ]
+      },
+      "webhookUrl": "https://webhook.site/your-unique-id"
+    },
+    "webhookUrl": "https://webhook.site/your-unique-id",
+    "createdAt": "2026-05-22T05:48:50.309Z",
+    "updatedAt": "2026-05-22T05:48:55.327Z"
+  },
+  {
+    "id": "27b18e7c-8757-4b75-b1b5-ab356ee87b28",
+    "submissionId": "302458ec-2253-42e0-8249-5b310f514b53",
+    "sellerId": "SELLER001",
+    "sku": "SKU009",
+    "status": "DISCOVERABLE",
+    "payload": {
+      "productType": "LAPTOP",
+      "attributes": {
+        "brand": [
+          {
+            "value": "Dell"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "XPS 13 Laptop"
+          }
+        ]
+      },
+      "webhookUrl": "https://webhook.site/01234567-89ab-cdef-0123-456789abcdef"
+    },
+    "webhookUrl": "https://webhook.site/01234567-89ab-cdef-0123-456789abcdef",
+    "createdAt": "2026-05-22T05:52:23.565Z",
+    "updatedAt": "2026-05-22T05:52:28.592Z"
+  },
+  {
+    "id": "5d2c0bd4-061a-4435-93ee-571e1d32ef0a",
+    "submissionId": "50bb487e-391b-47c4-9d53-a059017544d4",
+    "sellerId": "SELLER001",
+    "sku": "SKU009",
+    "status": "DISCOVERABLE",
+    "payload": {
+      "productType": "LAPTOP",
+      "attributes": {
+        "brand": [
+          {
+            "value": "Dell"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "XPS 13 Laptop"
+          }
+        ]
+      },
+      "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea284896"
+    },
+    "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea284896",
+    "createdAt": "2026-05-22T05:55:55.969Z",
+    "updatedAt": "2026-05-22T05:56:00.993Z"
+  },
+  {
+    "id": "343c22ad-074f-41b1-876c-8f5f5638ecf7",
+    "submissionId": "4e4fce49-2e2e-4b44-b1cb-ebb9e94932de",
+    "sellerId": "SELLER001",
+    "sku": "SKU009",
+    "status": "DISCOVERABLE",
+    "payload": {
+      "productType": "LAPTOP",
+      "attributes": {
+        "brand": [
+          {
+            "value": "Dell"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "XPS 13 Laptop"
+          }
+        ]
+      },
+      "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea284896"
+    },
+    "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea284896",
+    "createdAt": "2026-05-22T08:52:27.589Z",
+    "updatedAt": "2026-05-22T08:52:32.608Z"
+  },
+  {
+    "id": "cb35bbb0-7577-46e6-a471-7201c2c373d3",
+    "submissionId": "14749a8f-18b1-43d4-b48d-a2211dbd16bd",
+    "sellerId": "SELLER001",
+    "sku": "SKU009",
+    "status": "DISCOVERABLE",
+    "payload": {
+      "productType": "LAPTOP",
+      "attributes": {
+        "brand": [
+          {
+            "value": "Dell"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "XPS 13 Laptop"
+          }
+        ]
+      },
+      "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea28489"
+    },
+    "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea28489",
+    "createdAt": "2026-05-22T08:59:41.537Z",
+    "updatedAt": "2026-05-22T08:59:46.547Z"
+  },
+  {
+    "id": "7f1c6c7f-ec15-400e-8fc4-d5427d7b5b66",
+    "submissionId": "652c0a89-d923-408f-a276-c0df862290cd",
+    "sellerId": "SELLER001",
+    "sku": "SKU009",
+    "status": "DISCOVERABLE",
+    "payload": {
+      "productType": "LAPTOP",
+      "attributes": {
+        "brand": [
+          {
+            "value": "Dell"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "XPS 13 Laptop"
+          }
+        ]
+      },
+      "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea284896"
+    },
+    "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea284896",
+    "createdAt": "2026-05-22T08:59:55.997Z",
+    "updatedAt": "2026-05-22T09:00:01.018Z"
+  },
+  {
+    "id": "ec5e4d35-85bc-4d3f-951b-e87aef9772c9",
+    "submissionId": "90c65c57-a84c-4fa2-b746-92741d21adac",
+    "sellerId": "dinesh",
+    "sku": "TEST",
+    "status": "DISCOVERABLE",
+    "payload": {
+      "productType": "Iphone",
+      "attributes": {
+        "brand": [
+          {
+            "value": "Apple"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "Iphone 17"
+          }
+        ]
+      }
+    },
+    "createdAt": "2026-05-22T09:02:36.100Z",
+    "updatedAt": "2026-05-22T09:02:41.115Z"
+  },
+  {
+    "id": "029d0585-0118-455d-8314-2ee91b8ba137",
+    "submissionId": "016b5ff3-ecd3-436f-9aa8-4f1d0bb53de2",
+    "sellerId": "SELLER001",
+    "sku": "SKU111",
+    "status": "DISCOVERABLE",
+    "payload": {
+      "productType": "LAPTOP",
+      "attributes": {
+        "brand": [
+          {
+            "value": "Dell"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "XPS 13 Laptop"
+          }
+        ]
+      },
+      "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea284896"
+    },
+    "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea284896",
+    "createdAt": "2026-05-22T09:05:59.264Z",
+    "updatedAt": "2026-05-22T09:06:04.288Z"
+  },
+  {
+    "id": "587999e6-30ca-41e6-8da9-7aa6d5bc24a4",
+    "submissionId": "ff736b8c-ab83-4288-a82a-793a5e06860b",
+    "sellerId": "SELLER001",
+    "sku": "SKU111",
+    "status": "DISCOVERABLE",
+    "payload": {
+      "productType": "LAPTOP",
+      "attributes": {
+        "brand": [
+          {
+            "value": "Dell"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "XPS 13 Laptop"
+          }
+        ]
+      },
+      "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea284896"
+    },
+    "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea284896",
+    "createdAt": "2026-05-22T09:06:45.657Z",
+    "updatedAt": "2026-05-22T09:06:50.680Z"
+  },
+  {
+    "id": "835b0bbe-0420-4cd2-bfe8-9ec2cde7b907",
+    "submissionId": "01bd6e73-03ca-4303-b961-4beccbbdc023",
+    "sellerId": "SELLER001",
+    "sku": "SKU111",
+    "status": "DISCOVERABLE",
+    "payload": {
+      "productType": "LAPTOP",
+      "attributes": {
+        "brand": [
+          {
+            "value": "Dell"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "XPS 13 Laptop"
+          }
+        ]
+      },
+      "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea284896"
+    },
+    "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea284896",
+    "createdAt": "2026-05-22T09:07:02.671Z",
+    "updatedAt": "2026-05-22T09:07:07.695Z"
+  },
+  {
+    "id": "f403c849-7dcd-4853-84f2-375b278a916d",
+    "submissionId": "729705ee-ee67-4358-9ba3-868719af681c",
+    "sellerId": "SELLER001",
+    "sku": "SKU111",
+    "status": "DISCOVERABLE",
+    "payload": {
+      "productType": "LAPTOP",
+      "attributes": {
+        "brand": [
+          {
+            "value": "Dell"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "XPS 13 Laptop"
+          }
+        ]
+      },
+      "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea284896"
+    },
+    "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea284896",
+    "createdAt": "2026-05-22T09:07:03.476Z",
+    "updatedAt": "2026-05-22T09:07:08.505Z"
+  },
+  {
+    "id": "4655c59b-ae87-4e98-bda1-ef7860523952",
+    "submissionId": "7c317301-1608-40c9-95c1-8899b8641c35",
+    "sellerId": "SELLER001",
+    "sku": "SKU111",
+    "status": "DISCOVERABLE",
+    "payload": {
+      "productType": "LAPTOP",
+      "attributes": {
+        "brand": [
+          {
+            "value": "Dell"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "XPS 13 Laptop"
+          }
+        ]
+      },
+      "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea284896"
+    },
+    "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea284896",
+    "createdAt": "2026-05-22T09:07:04.345Z",
+    "updatedAt": "2026-05-22T09:07:09.360Z"
+  },
+  {
+    "id": "f9a7ab60-7342-4d6f-9ae1-1d6c7171a9f9",
+    "submissionId": "4cbab41a-1ab3-4fb9-9dff-63a6ac18c847",
+    "sellerId": "SELLER123",
+    "sku": "TEST001",
+    "status": "DISCOVERABLE",
+    "payload": {
+      "productType": "HEADPHONES",
+      "attributes": {
+        "brand": [
+          {
+            "value": "Sony"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "Wireless Bluetooth Headphones"
+          }
+        ]
+      }
+    },
+    "createdAt": "2026-05-22T11:50:57.975Z",
+    "updatedAt": "2026-05-22T11:51:03.000Z"
+  },
+  {
+    "id": "0b2cf64d-12a0-443e-aaf7-b9ccdae00313",
+    "submissionId": "10cc12f5-fcb5-4a53-aa75-9eae570574c0",
+    "sellerId": "SELLER123",
+    "sku": "TEST001",
+    "status": "DISCOVERABLE",
+    "payload": {
+      "productType": "HEADPHONES",
+      "attributes": {
+        "brand": [
+          {
+            "value": "Sony"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "Wireless Bluetooth Headphones"
+          }
+        ]
+      }
+    },
+    "createdAt": "2026-05-22T11:51:30.007Z",
+    "updatedAt": "2026-05-22T11:51:35.032Z"
+  }
+]
