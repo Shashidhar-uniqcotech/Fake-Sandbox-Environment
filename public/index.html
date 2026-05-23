@@ -12,7 +12,7 @@
         <div class="brand-mark">M</div>
         <div>
           <h1>Marketplace Sandbox</h1>
-          <p>Flipkart, Walmart, and eBay</p>
+          <p>Amazon and marketplace channels</p>
         </div>
       </div>
 
@@ -113,6 +113,11 @@
                   <option value="meta-marketplace">Meta Marketplace</option>
                   <option value="shopify">Shopify</option>
                   <option value="etsy">Etsy</option>
+                  <option value="tiktok-shop">TikTok Shop</option>
+                  <option value="aliexpress">AliExpress</option>
+                  <option value="rakuten">Rakuten</option>
+                  <option value="shopee">Shopee</option>
+                  <option value="temu">Temu</option>
                 </select>
               </div>
               <div class="form-row">
@@ -310,6 +315,122 @@
                   <input name="etsyShippingProfileId" value="standard-us" />
                 </div>
               </div>
+              <div class="platform-fields" data-platform-fields="tiktok-shop">
+                <div class="form-row">
+                  <label>Category ID</label>
+                  <input name="tiktokProductCategoryId" value="601352" />
+                </div>
+                <div class="form-row">
+                  <label>Warehouse ID</label>
+                  <input name="tiktokWarehouseId" value="TTS-US-01" />
+                </div>
+                <div class="form-row">
+                  <label>Package weight</label>
+                  <input name="tiktokPackageWeight" type="number" min="0" step="0.01" value="0.5" />
+                </div>
+                <div class="form-row">
+                  <label>Package dimensions</label>
+                  <input name="tiktokPackageDimensions" value="20x15x8 cm" />
+                </div>
+                <div class="form-row">
+                  <label>Seller SKU</label>
+                  <input name="tiktokSellerSku" value="TTS-TEST001" />
+                </div>
+              </div>
+              <div class="platform-fields" data-platform-fields="aliexpress">
+                <div class="form-row">
+                  <label>Product group ID</label>
+                  <input name="aliexpressProductGroupId" value="AE-GROUP-01" />
+                </div>
+                <div class="form-row">
+                  <label>Logistics template ID</label>
+                  <input name="aliexpressLogisticsTemplateId" value="AE-LOG-STD" />
+                </div>
+                <div class="form-row">
+                  <label>Service policy ID</label>
+                  <input name="aliexpressServicePolicyId" value="AE-POLICY-01" />
+                </div>
+                <div class="form-row">
+                  <label>Category ID</label>
+                  <input name="aliexpressCategoryId" value="200003482" />
+                </div>
+                <div class="form-row">
+                  <label>Shipping from</label>
+                  <input name="aliexpressShippingFrom" value="US" />
+                </div>
+              </div>
+              <div class="platform-fields" data-platform-fields="rakuten">
+                <div class="form-row">
+                  <label>Shop SKU</label>
+                  <input name="rakutenShopSku" value="RKT-TEST001" />
+                </div>
+                <div class="form-row">
+                  <label>Genre ID</label>
+                  <input name="rakutenGenreId" value="566722" />
+                </div>
+                <div class="form-row">
+                  <label>Warehouse ID</label>
+                  <input name="rakutenWarehouseId" value="RKT-WH-01" />
+                </div>
+                <div class="form-row">
+                  <label>Delivery set ID</label>
+                  <input name="rakutenDeliverySetId" value="RKT-DELIVERY-STD" />
+                </div>
+                <div class="form-row">
+                  <label>Point rate</label>
+                  <input name="rakutenPointRate" type="number" min="0" step="0.01" value="1" />
+                </div>
+              </div>
+              <div class="platform-fields" data-platform-fields="shopee">
+                <div class="form-row">
+                  <label>Item SKU</label>
+                  <input name="shopeeItemSku" value="SHP-TEST001" />
+                </div>
+                <div class="form-row">
+                  <label>Category ID</label>
+                  <input name="shopeeCategoryId" value="100535" />
+                </div>
+                <div class="form-row">
+                  <label>Logistics channel ID</label>
+                  <input name="shopeeLogisticsChannelId" value="SHP-STD" />
+                </div>
+                <div class="form-row">
+                  <label>Condition</label>
+                  <select name="shopeeCondition">
+                    <option value="NEW">New</option>
+                    <option value="USED">Used</option>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <label>Weight</label>
+                  <input name="shopeeWeight" type="number" min="0" step="0.01" value="0.5" />
+                </div>
+              </div>
+              <div class="platform-fields" data-platform-fields="temu">
+                <div class="form-row">
+                  <label>Goods name</label>
+                  <input name="temuGoodsName" value="Wireless Bluetooth Headphones" />
+                </div>
+                <div class="form-row">
+                  <label>Category ID</label>
+                  <input name="temuCategoryId" value="TMR-1001" />
+                </div>
+                <div class="form-row">
+                  <label>Warehouse region</label>
+                  <input name="temuWarehouseRegion" value="US" />
+                </div>
+                <div class="form-row">
+                  <label>Fulfillment type</label>
+                  <select name="temuFulfillmentType">
+                    <option value="local">Local</option>
+                    <option value="cross_border">Cross-border</option>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <label>Manufacturer code</label>
+                  <input name="temuManufacturerCode" value="MFG-TEST001" />
+                </div>
+              </div>
               <div class="form-row">
                 <label>Item name</label>
                 <input name="itemName" value="Wireless Bluetooth Headphones" required />
@@ -364,6 +485,11 @@
                   <option value="meta-marketplace">Meta Marketplace</option>
                   <option value="shopify">Shopify</option>
                   <option value="etsy">Etsy</option>
+                  <option value="tiktok-shop">TikTok Shop</option>
+                  <option value="aliexpress">AliExpress</option>
+                  <option value="rakuten">Rakuten</option>
+                  <option value="shopee">Shopee</option>
+                  <option value="temu">Temu</option>
                 </select>
               </div>
               <div class="form-row">
@@ -392,6 +518,11 @@
                 <option value="meta-marketplace">Meta Marketplace</option>
                 <option value="shopify">Shopify</option>
                 <option value="etsy">Etsy</option>
+                <option value="tiktok-shop">TikTok Shop</option>
+                <option value="aliexpress">AliExpress</option>
+                <option value="rakuten">Rakuten</option>
+                <option value="shopee">Shopee</option>
+                <option value="temu">Temu</option>
               </select>
               <input id="inventoryLookupSku" value="TEST001" />
               <button id="inventoryLookupButton" class="primary-button">Lookup</button>
@@ -437,6 +568,6 @@
     </main>
 
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
-    <script src="/dist/app.js"></script>
+    <script src="/dist/app.js?v=4"></script>
   </body>
 </html>

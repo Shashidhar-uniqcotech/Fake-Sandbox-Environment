@@ -22,6 +22,11 @@ type MarketplacePlatform =
   | 'meta-marketplace'
   | 'shopify'
   | 'etsy'
+  | 'tiktok-shop'
+  | 'aliexpress'
+  | 'rakuten'
+  | 'shopee'
+  | 'temu'
 
 type ListingPlatform =
   | 'amazon'
@@ -243,11 +248,7 @@ const createListingApiPath = (
     return `/listings/2021-08-01/items/${encodedSellerId}/${encodedSku}`
   }
 
-  if (listingPlatforms.includes(platform as ListingPlatform)) {
-    return `/${platform}/items/${encodedSellerId}/${encodedSku}`
-  }
-
-  return `/flipkart/items/${encodedSellerId}/${encodedSku}`
+  return `/${platform}/items/${encodedSellerId}/${encodedSku}`
 }
 
 const normalizeListing = (listing: Listing): Listing => ({
@@ -262,7 +263,12 @@ const marketplacePlatforms: MarketplacePlatform[] = [
   'google-shopping',
   'meta-marketplace',
   'shopify',
-  'etsy'
+  'etsy',
+  'tiktok-shop',
+  'aliexpress',
+  'rakuten',
+  'shopee',
+  'temu'
 ]
 
 const listingPlatforms: ListingPlatform[] = [
@@ -665,6 +671,101 @@ els.listingForm.addEventListener(
                 ) === 'true',
               shippingProfileId: String(
                 form.get('etsyShippingProfileId') || ''
+              )
+            }
+          : {}),
+        ...(platform === 'tiktok-shop'
+          ? {
+              productCategoryId: String(
+                form.get('tiktokProductCategoryId') || ''
+              ),
+              warehouseId: String(
+                form.get('tiktokWarehouseId') || ''
+              ),
+              packageWeight: Number(
+                form.get('tiktokPackageWeight')
+              ),
+              packageDimensions: String(
+                form.get('tiktokPackageDimensions') || ''
+              ),
+              sellerSku: String(
+                form.get('tiktokSellerSku') || ''
+              )
+            }
+          : {}),
+        ...(platform === 'aliexpress'
+          ? {
+              productGroupId: String(
+                form.get('aliexpressProductGroupId') || ''
+              ),
+              logisticsTemplateId: String(
+                form.get('aliexpressLogisticsTemplateId') || ''
+              ),
+              servicePolicyId: String(
+                form.get('aliexpressServicePolicyId') || ''
+              ),
+              categoryId: String(
+                form.get('aliexpressCategoryId') || ''
+              ),
+              shippingFrom: String(
+                form.get('aliexpressShippingFrom') || ''
+              )
+            }
+          : {}),
+        ...(platform === 'rakuten'
+          ? {
+              shopSku: String(
+                form.get('rakutenShopSku') || ''
+              ),
+              genreId: String(
+                form.get('rakutenGenreId') || ''
+              ),
+              warehouseId: String(
+                form.get('rakutenWarehouseId') || ''
+              ),
+              deliverySetId: String(
+                form.get('rakutenDeliverySetId') || ''
+              ),
+              pointRate: Number(
+                form.get('rakutenPointRate')
+              )
+            }
+          : {}),
+        ...(platform === 'shopee'
+          ? {
+              itemSku: String(
+                form.get('shopeeItemSku') || ''
+              ),
+              categoryId: String(
+                form.get('shopeeCategoryId') || ''
+              ),
+              logisticsChannelId: String(
+                form.get('shopeeLogisticsChannelId') || ''
+              ),
+              condition: String(
+                form.get('shopeeCondition') || ''
+              ),
+              weight: Number(
+                form.get('shopeeWeight')
+              )
+            }
+          : {}),
+        ...(platform === 'temu'
+          ? {
+              goodsName: String(
+                form.get('temuGoodsName') || ''
+              ),
+              categoryId: String(
+                form.get('temuCategoryId') || ''
+              ),
+              warehouseRegion: String(
+                form.get('temuWarehouseRegion') || ''
+              ),
+              fulfillmentType: String(
+                form.get('temuFulfillmentType') || ''
+              ),
+              manufacturerCode: String(
+                form.get('temuManufacturerCode') || ''
               )
             }
           : {}),

@@ -281,5 +281,34 @@
     },
     "createdAt": "2026-05-22T16:11:39.556Z",
     "updatedAt": "2026-05-22T16:11:44.585Z"
+  },
+  {
+    "id": "49d046b9-a039-4046-ba05-a3ad0b1f5bde",
+    "platform": "amazon",
+    "submissionId": "6c39cc3e-c8f7-456e-877d-cb894b158e21",
+    "sellerId": "SELLER123",
+    "sku": "TEST001",
+    "status": "DISCOVERABLE",
+    "payload": {
+      "productType": "HEADPHONES",
+      "title": "Wireless Bluetooth Headphones",
+      "brand": "Sony",
+      "price": 99.99,
+      "quantity": 25,
+      "attributes": {
+        "brand": [
+          {
+            "value": "Sony"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "Wireless Bluetooth Headphones"
+          }
+        ]
+      }
+    },
+    "createdAt": "2026-05-23T08:27:04.166Z",
+    "updatedAt": "2026-05-23T08:27:09.195Z"
   }
 ]

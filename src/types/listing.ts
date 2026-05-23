@@ -17,6 +17,11 @@ export type MarketplacePlatform =
   | 'meta-marketplace'
   | 'shopify'
   | 'etsy'
+  | 'tiktok-shop'
+  | 'aliexpress'
+  | 'rakuten'
+  | 'shopee'
+  | 'temu'
 
 export type ListingPlatform =
   | CorePlatform

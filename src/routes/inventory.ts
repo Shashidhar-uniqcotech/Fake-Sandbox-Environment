@@ -11,7 +11,12 @@ const platforms = new Set([
   'google-shopping',
   'meta-marketplace',
   'shopify',
-  'etsy'
+  'etsy',
+  'tiktok-shop',
+  'aliexpress',
+  'rakuten',
+  'shopee',
+  'temu'
 ])
 
 const parsePlatform = (value: string) => {

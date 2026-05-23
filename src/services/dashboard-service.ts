@@ -30,7 +30,12 @@ const marketplacePlatforms = [
   'google-shopping',
   'meta-marketplace',
   'shopify',
-  'etsy'
+  'etsy',
+  'tiktok-shop',
+  'aliexpress',
+  'rakuten',
+  'shopee',
+  'temu'
 ] as const
 
 type MarketplacePlatform =
@@ -113,7 +118,12 @@ export class DashboardService {
           'google-shopping': 0,
           'meta-marketplace': 0,
           shopify: 0,
-          etsy: 0
+          etsy: 0,
+          'tiktok-shop': 0,
+          aliexpress: 0,
+          rakuten: 0,
+          shopee: 0,
+          temu: 0
         }
       )
     const inventoryByPlatform =
@@ -132,7 +142,12 @@ export class DashboardService {
           'google-shopping': 0,
           'meta-marketplace': 0,
           shopify: 0,
-          etsy: 0
+          etsy: 0,
+          'tiktok-shop': 0,
+          aliexpress: 0,
+          rakuten: 0,
+          shopee: 0,
+          temu: 0
         }
       )
     const webhooksByPlatform =
@@ -151,7 +166,12 @@ export class DashboardService {
           'google-shopping': 0,
           'meta-marketplace': 0,
           shopify: 0,
-          etsy: 0
+          etsy: 0,
+          'tiktok-shop': 0,
+          aliexpress: 0,
+          rakuten: 0,
+          shopee: 0,
+          temu: 0
         }
       )
 

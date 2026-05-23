@@ -4,7 +4,12 @@ import {
   etsyListingSchema,
   googleShoppingListingSchema,
   metaMarketplaceListingSchema,
-  shopifyListingSchema
+  shopifyListingSchema,
+  tiktokShopListingSchema,
+  aliexpressListingSchema,
+  rakutenListingSchema,
+  shopeeListingSchema,
+  temuListingSchema
 } from '../validators/listing-validator'
 import { GenericMarketplaceListing } from '../types/listing'
 
@@ -12,7 +17,12 @@ const schemas = {
   'google-shopping': googleShoppingListingSchema,
   'meta-marketplace': metaMarketplaceListingSchema,
   shopify: shopifyListingSchema,
-  etsy: etsyListingSchema
+  etsy: etsyListingSchema,
+  'tiktok-shop': tiktokShopListingSchema,
+  aliexpress: aliexpressListingSchema,
+  rakuten: rakutenListingSchema,
+  shopee: shopeeListingSchema,
+  temu: temuListingSchema
 } as const
 
 type GenericPlatform =

@@ -1,5 +1,17 @@
 [
   {
+    "platform": "aliexpress",
+    "sku": "TEST001",
+    "quantity": 25,
+    "updatedAt": "2026-05-23T08:28:17.516Z"
+  },
+  {
+    "platform": "tiktok-shop",
+    "sku": "TEST001",
+    "quantity": 25,
+    "updatedAt": "2026-05-23T08:28:06.709Z"
+  },
+  {
     "platform": "amazon",
     "sku": "TEST001",
     "quantity": 25,
