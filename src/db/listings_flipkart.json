@@ -58,5 +58,204 @@
     },
     "createdAt": "2026-05-22T11:57:13.627Z",
     "updatedAt": "2026-05-22T11:57:18.653Z"
+  },
+  {
+    "id": "88cd5778-6cf8-414b-9f37-f3e3409fa0ee",
+    "platform": "flipkart",
+    "submissionId": "3a076847-0f5f-4582-9d1e-d4ce07f9ded0",
+    "sellerId": "SELLER123",
+    "sku": "TEST001",
+    "channelSkuId": "FK-TEST001",
+    "status": "DISCOVERABLE",
+    "price": 99.99,
+    "quantity": 25,
+    "hsn": "85183000",
+    "gstRate": 18,
+    "fulfillment": "seller_fulfilled",
+    "payload": {
+      "productType": "HEADPHONES",
+      "title": "Wireless Bluetooth Headphones",
+      "brand": "Sony",
+      "price": 99.99,
+      "quantity": 25,
+      "attributes": {
+        "brand": [
+          {
+            "value": "Sony"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "Wireless Bluetooth Headphones"
+          }
+        ]
+      },
+      "channelSkuId": "FK-TEST001",
+      "hsn": "85183000",
+      "gstRate": 18,
+      "fulfillment": "seller_fulfilled"
+    },
+    "createdAt": "2026-05-22T12:11:21.073Z",
+    "updatedAt": "2026-05-22T12:11:26.108Z"
+  },
+  {
+    "id": "ae615b92-297b-4973-a966-ae28bdbc9d44",
+    "platform": "flipkart",
+    "submissionId": "2c8246fe-b350-4eff-8890-6ac0eed4c53a",
+    "sellerId": "SELLER123",
+    "sku": "FK-TEST-001",
+    "channelSkuId": "FK-CH-TEST-001",
+    "productId": "FK-PROD-1001",
+    "status": "DISCOVERABLE",
+    "price": 2499.99,
+    "quantity": 25,
+    "hsn": "85183000",
+    "gstRate": 18,
+    "fulfillment": "seller_fulfilled",
+    "payload": {
+      "productType": "HEADPHONES",
+      "title": "Wireless Bluetooth Headphones",
+      "brand": "Sony",
+      "price": 2499.99,
+      "quantity": 25,
+      "attributes": {
+        "brand": [
+          {
+            "value": "Sony"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "Wireless Bluetooth Headphones"
+          }
+        ]
+      },
+      "webhookUrl": "https://webhook.site/your-id",
+      "channelSkuId": "FK-CH-TEST-001",
+      "productId": "FK-PROD-1001",
+      "hsn": "85183000",
+      "gstRate": 18,
+      "fulfillment": "seller_fulfilled"
+    },
+    "webhookUrl": "https://webhook.site/your-id",
+    "createdAt": "2026-05-22T12:38:32.647Z",
+    "updatedAt": "2026-05-22T12:38:37.679Z"
+  },
+  {
+    "id": "c0d72cb0-d345-4eee-aaec-939ec1ccc89c",
+    "platform": "flipkart",
+    "submissionId": "78cba2d7-9f9b-4fda-b005-78fd25ff14bc",
+    "sellerId": "SELLER123",
+    "sku": "TEST001",
+    "channelSkuId": "FK-TEST001",
+    "status": "DISCOVERABLE",
+    "price": 99.99,
+    "quantity": 25,
+    "hsn": "85183000",
+    "gstRate": 18,
+    "fulfillment": "seller_fulfilled",
+    "payload": {
+      "productType": "HEADPHONES",
+      "title": "Wireless Bluetooth Headphones",
+      "brand": "Sony",
+      "price": 99.99,
+      "quantity": 25,
+      "attributes": {
+        "brand": [
+          {
+            "value": "Sony"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "Wireless Bluetooth Headphones"
+          }
+        ]
+      },
+      "channelSkuId": "FK-TEST001",
+      "hsn": "85183000",
+      "gstRate": 18,
+      "fulfillment": "seller_fulfilled"
+    },
+    "createdAt": "2026-05-22T13:03:46.145Z",
+    "updatedAt": "2026-05-22T13:03:51.176Z"
+  },
+  {
+    "id": "66e28fa9-d470-4b8c-a13a-54bb6c37cb9e",
+    "platform": "flipkart",
+    "submissionId": "82fc6623-46b0-4be2-845c-ca588503e08f",
+    "sellerId": "SELLER123",
+    "sku": "TEST001",
+    "channelSkuId": "FK-TEST001",
+    "status": "DISCOVERABLE",
+    "price": 99.99,
+    "quantity": 25,
+    "hsn": "85183000",
+    "gstRate": 18,
+    "fulfillment": "seller_fulfilled",
+    "payload": {
+      "productType": "HEADPHONES",
+      "title": "Wireless Bluetooth Headphones",
+      "brand": "Sony",
+      "price": 99.99,
+      "quantity": 25,
+      "attributes": {
+        "brand": [
+          {
+            "value": "Sony"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "Wireless Bluetooth Headphones"
+          }
+        ]
+      },
+      "channelSkuId": "FK-TEST001",
+      "hsn": "85183000",
+      "gstRate": 18,
+      "fulfillment": "seller_fulfilled"
+    },
+    "createdAt": "2026-05-22T13:12:42.800Z",
+    "updatedAt": "2026-05-22T13:12:47.818Z"
+  },
+  {
+    "id": "955af958-cca0-4c26-9d98-d4a5a08ac02c",
+    "platform": "flipkart",
+    "submissionId": "60ec1727-478e-4cfa-8129-061883f18f25",
+    "sellerId": "SELLER123",
+    "sku": "TEST001",
+    "channelSkuId": "FK-TEST001",
+    "status": "DISCOVERABLE",
+    "price": 99.99,
+    "quantity": 25,
+    "hsn": "85183000",
+    "gstRate": 18,
+    "fulfillment": "seller_fulfilled",
+    "payload": {
+      "productType": "HEADPHONES",
+      "title": "Wireless Bluetooth Headphones",
+      "brand": "Sony",
+      "price": 99.99,
+      "quantity": 25,
+      "attributes": {
+        "brand": [
+          {
+            "value": "Sony"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "Wireless Bluetooth Headphones"
+          }
+        ]
+      },
+      "channelSkuId": "FK-TEST001",
+      "hsn": "85183000",
+      "gstRate": 18,
+      "fulfillment": "seller_fulfilled"
+    },
+    "createdAt": "2026-05-22T13:42:26.053Z",
+    "updatedAt": "2026-05-22T13:42:31.076Z"
   }
 ]

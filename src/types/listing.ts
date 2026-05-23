@@ -7,9 +7,24 @@ export type ListingStatus =
   | 'VALIDATION_FAILED'
   | 'PROCESSING_FAILED'
 
+export type CorePlatform = 'amazon'
+
+export type MarketplacePlatform =
+  | 'flipkart'
+  | 'walmart'
+  | 'ebay'
+  | 'google-shopping'
+  | 'meta-marketplace'
+  | 'shopify'
+  | 'etsy'
+
+export type ListingPlatform =
+  | CorePlatform
+  | MarketplacePlatform
+
 export type Listing = {
   id: string
-  platform: 'amazon'
+  platform: CorePlatform
   sellerId: string
   sku: string
   status: ListingStatus
@@ -127,4 +142,38 @@ export type CreateEbayListingInput = {
   condition?: string
   quantity?: number
   title?: string
+}
+
+export type GenericMarketplaceListing = {
+  id: string
+  platform: Exclude<
+    MarketplacePlatform,
+    'flipkart' | 'walmart' | 'ebay'
+  >
+  sellerId: string
+  sku: string
+  submissionId: string
+  status: ListingStatus
+  price?: number
+  quantity?: number
+  title?: string
+  brand?: string
+  payload: unknown
+  webhookUrl?: string
+  platformFields: Record<string, unknown>
+  createdAt: string
+  updatedAt?: string
+}
+
+export type CreateGenericMarketplaceListingInput = {
+  platform: GenericMarketplaceListing['platform']
+  sellerId: string
+  sku: string
+  payload: unknown
+  webhookUrl?: string
+  price?: number
+  quantity?: number
+  title?: string
+  brand?: string
+  platformFields?: Record<string, unknown>
 }

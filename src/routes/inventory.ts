@@ -3,7 +3,16 @@ import { InventoryService } from '../services/inventory-service'
 import { InventoryItem } from '../types/inventory'
 import { inventoryUpdateSchema } from '../validators/inventory-validator'
 
-const platforms = new Set(['flipkart', 'walmart', 'ebay'])
+const platforms = new Set([
+  'amazon',
+  'flipkart',
+  'walmart',
+  'ebay',
+  'google-shopping',
+  'meta-marketplace',
+  'shopify',
+  'etsy'
+])
 
 const parsePlatform = (value: string) => {
   if (!platforms.has(value)) {

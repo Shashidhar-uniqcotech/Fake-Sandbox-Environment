@@ -2,15 +2,15 @@ type AnalyticsResponse = {
   listings: {
     total: number
     byStatus: Record<string, number>
-    byPlatform?: Record<MarketplacePlatform, number>
+    byPlatform?: Record<ListingPlatform, number>
   }
   inventory?: {
     total: number
-    byPlatform: Record<MarketplacePlatform, number>
+    byPlatform: Record<ListingPlatform, number>
   }
   webhooks: {
     totalDeliveries: number
-    byPlatform?: Record<MarketplacePlatform, number>
+    byPlatform?: Record<ListingPlatform, number>
   }
 }
 
@@ -18,10 +18,20 @@ type MarketplacePlatform =
   | 'flipkart'
   | 'walmart'
   | 'ebay'
+  | 'google-shopping'
+  | 'meta-marketplace'
+  | 'shopify'
+  | 'etsy'
+
+type ListingPlatform =
+  | 'amazon'
+  | MarketplacePlatform
+
+type InventoryPlatform = ListingPlatform
 
 type Listing = {
   id: string
-  platform: 'amazon' | 'flipkart' | 'walmart' | 'ebay'
+  platform: ListingPlatform
   sellerId: string
   sku: string
   status: string
@@ -55,7 +65,7 @@ type WebhookDelivery = {
 }
 
 type InventoryItem = {
-  platform: MarketplacePlatform
+  platform: InventoryPlatform
   sku: string
   quantity: number
   updatedAt: string
@@ -147,7 +157,7 @@ const els = {
   inventoryLookupButton:
     mustFind<HTMLButtonElement>('#inventoryLookupButton'),
   inventoryResult:
-    mustFind<HTMLPreElement>('#inventoryResult'),
+    mustFind<HTMLElement>('#inventoryResult'),
   eventLog:
     mustFind<HTMLElement>('#eventLog'),
   webhooksTable:
@@ -218,7 +228,7 @@ const formatDate = (value?: string) => {
 const statusClass = (value: string) =>
   value.toLowerCase()
 
-const listingApiBase = (platform: Listing['platform']) =>
+const listingApiBase = (platform: ListingPlatform) =>
   platform === 'amazon' ? '/listings' : `/${platform}/listings`
 
 const createListingApiPath = (
@@ -233,7 +243,7 @@ const createListingApiPath = (
     return `/listings/2021-08-01/items/${encodedSellerId}/${encodedSku}`
   }
 
-  if (marketplacePlatforms.includes(platform as MarketplacePlatform)) {
+  if (listingPlatforms.includes(platform as ListingPlatform)) {
     return `/${platform}/items/${encodedSellerId}/${encodedSku}`
   }
 
@@ -248,13 +258,22 @@ const normalizeListing = (listing: Listing): Listing => ({
 const marketplacePlatforms: MarketplacePlatform[] = [
   'flipkart',
   'walmart',
-  'ebay'
+  'ebay',
+  'google-shopping',
+  'meta-marketplace',
+  'shopify',
+  'etsy'
+]
+
+const listingPlatforms: ListingPlatform[] = [
+  'amazon',
+  ...marketplacePlatforms
 ]
 
 const renderPlatformSummary = (
   analytics: AnalyticsResponse
 ) => {
-  els.platformSummary.innerHTML = marketplacePlatforms
+  els.platformSummary.innerHTML = listingPlatforms
     .map(platform => `
       <div class="queue-item">
         <span>${platform}</span>
@@ -313,7 +332,13 @@ const renderEvents = (
 }
 
 const renderListings = (listings: Listing[]) => {
-  const normalizedListings = listings.map(normalizeListing)
+  const normalizedListings = listings
+    .map(normalizeListing)
+    .sort(
+      (left, right) =>
+        new Date(right.createdAt || 0).getTime() -
+        new Date(left.createdAt || 0).getTime()
+    )
 
   els.listingsTable.innerHTML = normalizedListings.length
     ? normalizedListings
@@ -350,6 +375,43 @@ const renderWebhooks = (
       `)
         .join('')
     : '<tr><td colspan="6">No webhook deliveries yet.</td></tr>'
+}
+
+const renderInventoryResult = (
+  item: InventoryItem
+) => {
+  els.inventoryResult.classList.remove('is-error')
+  els.inventoryResult.innerHTML = `
+    <div class="inventory-summary">
+      <div class="inventory-summary-main">
+        <span class="inventory-label">Available stock</span>
+        <strong>${item.quantity}</strong>
+      </div>
+      <div class="inventory-summary-details">
+        <div>
+          <span>Platform</span>
+          <strong>${item.platform}</strong>
+        </div>
+        <div>
+          <span>SKU</span>
+          <strong>${item.sku}</strong>
+        </div>
+        <div>
+          <span>Last updated</span>
+          <strong>${formatDate(item.updatedAt)}</strong>
+        </div>
+      </div>
+    </div>
+  `
+}
+
+const renderInventoryError = (
+  message: string
+) => {
+  els.inventoryResult.classList.add('is-error')
+  els.inventoryResult.innerHTML = `
+    <p class="empty-state">${message}</p>
+  `
 }
 
 const refresh = async () => {
@@ -526,6 +588,86 @@ els.listingForm.addEventListener(
               )
             }
           : {}),
+        ...(platform === 'google-shopping'
+          ? {
+              offerId: String(
+                form.get('offerId') || ''
+              ),
+              googleProductCategory: String(
+                form.get('googleProductCategory') || ''
+              ),
+              targetCountry: String(
+                form.get('targetCountry') || ''
+              ),
+              contentLanguage: String(
+                form.get('contentLanguage') || ''
+              ),
+              condition: String(
+                form.get('googleCondition') || ''
+              ),
+              availability: String(
+                form.get('googleAvailability') || ''
+              )
+            }
+          : {}),
+        ...(platform === 'meta-marketplace'
+          ? {
+              facebookCategoryId: String(
+                form.get('facebookCategoryId') || ''
+              ),
+              listingType: String(
+                form.get('metaListingType') || ''
+              ),
+              condition: String(
+                form.get('metaCondition') || ''
+              ),
+              location: String(
+                form.get('metaLocation') || ''
+              ),
+              availability: String(
+                form.get('metaAvailability') || ''
+              )
+            }
+          : {}),
+        ...(platform === 'shopify'
+          ? {
+              handle: String(
+                form.get('shopifyHandle') || ''
+              ),
+              vendor: String(
+                form.get('shopifyVendor') || ''
+              ),
+              tags: String(
+                form.get('shopifyTags') || ''
+              ),
+              optionName: String(
+                form.get('shopifyOptionName') || ''
+              ),
+              optionValue: String(
+                form.get('shopifyOptionValue') || ''
+              )
+            }
+          : {}),
+        ...(platform === 'etsy'
+          ? {
+              taxonomyId: String(
+                form.get('etsyTaxonomyId') || ''
+              ),
+              whoMade: String(
+                form.get('etsyWhoMade') || ''
+              ),
+              whenMade: String(
+                form.get('etsyWhenMade') || ''
+              ),
+              isSupply:
+                String(
+                  form.get('etsyIsSupply') || ''
+                ) === 'true',
+              shippingProfileId: String(
+                form.get('etsyShippingProfileId') || ''
+              )
+            }
+          : {}),
         ...(webhookUrl ? { webhookUrl } : {})
       }
 
@@ -601,7 +743,7 @@ els.inventoryForm.addEventListener(
       )
       const platform = String(
         form.get('platform')
-      ) as MarketplacePlatform
+      ) as InventoryPlatform
       const sku = String(form.get('sku'))
       const quantity = Number(form.get('quantity'))
 
@@ -617,8 +759,7 @@ els.inventoryForm.addEventListener(
           }
         )
 
-        els.inventoryResult.textContent =
-          JSON.stringify(item, null, 2)
+        renderInventoryResult(item)
         toast('Inventory updated')
         await refresh()
       } catch (error) {
@@ -640,20 +781,13 @@ els.inventoryLookupButton.addEventListener(
         const item = await api<InventoryItem>(
           `/inventory/${els.inventoryLookupPlatform.value}/${els.inventoryLookupSku.value.trim()}`
         )
-        els.inventoryResult.textContent =
-          JSON.stringify(item, null, 2)
+        renderInventoryResult(item)
       } catch (error) {
-        els.inventoryResult.textContent =
-          JSON.stringify(
-            {
-              message:
-                error instanceof Error
-                  ? error.message
-                  : 'Inventory lookup failed'
-            },
-            null,
-            2
-          )
+        renderInventoryError(
+          error instanceof Error
+            ? error.message
+            : 'Inventory lookup failed'
+        )
       }
     })()
   }

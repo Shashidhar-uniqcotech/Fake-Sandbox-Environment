@@ -1,161 +1,5 @@
 [
   {
-    "id": "41cf62ae-14f7-4e97-9003-eecc297153bb",
-    "submissionId": "19686bc0-85a3-448e-a8ff-5827719a057d",
-    "sellerId": "SELLER001",
-    "sku": "SKU001",
-    "status": "DISCOVERABLE",
-    "payload": {
-      "productType": "LAPTOP",
-      "attributes": {
-        "brand": [
-          {
-            "value": "Dell"
-          }
-        ],
-        "item_name": [
-          {
-            "value": "XPS 13 Laptop"
-          }
-        ]
-      },
-      "webhookUrl": "https://webhook.site/your-unique-id"
-    },
-    "webhookUrl": "https://webhook.site/your-unique-id",
-    "createdAt": "2026-05-22T05:37:12.090Z",
-    "updatedAt": "2026-05-22T05:37:17.238Z"
-  },
-  {
-    "id": "eda8ae31-f8f2-45d1-8c7b-bbe8c394bcf0",
-    "submissionId": "ee628add-40b9-439f-88de-bcf12cd43b50",
-    "sellerId": "SELLER001",
-    "sku": "SKU009",
-    "status": "DISCOVERABLE",
-    "payload": {
-      "productType": "LAPTOP",
-      "attributes": {
-        "brand": [
-          {
-            "value": "Dell"
-          }
-        ],
-        "item_name": [
-          {
-            "value": "XPS 13 Laptop"
-          }
-        ]
-      },
-      "webhookUrl": "https://webhook.site/your-unique-id"
-    },
-    "webhookUrl": "https://webhook.site/your-unique-id",
-    "createdAt": "2026-05-22T05:42:37.286Z",
-    "updatedAt": "2026-05-22T05:42:42.343Z"
-  },
-  {
-    "id": "7076640d-24ba-424d-8cbc-343785e3bd76",
-    "submissionId": "8b9ce9e9-8d61-4494-9a10-248620f4ff24",
-    "sellerId": "SELLER001",
-    "sku": "SKU009",
-    "status": "DISCOVERABLE",
-    "payload": {
-      "productType": "LAPTOP",
-      "attributes": {
-        "brand": [
-          {
-            "value": "Dell"
-          }
-        ],
-        "item_name": [
-          {
-            "value": "XPS 13 Laptop"
-          }
-        ]
-      },
-      "webhookUrl": "https://webhook.site/your-unique-id"
-    },
-    "webhookUrl": "https://webhook.site/your-unique-id",
-    "createdAt": "2026-05-22T05:48:50.309Z",
-    "updatedAt": "2026-05-22T05:48:55.327Z"
-  },
-  {
-    "id": "27b18e7c-8757-4b75-b1b5-ab356ee87b28",
-    "submissionId": "302458ec-2253-42e0-8249-5b310f514b53",
-    "sellerId": "SELLER001",
-    "sku": "SKU009",
-    "status": "DISCOVERABLE",
-    "payload": {
-      "productType": "LAPTOP",
-      "attributes": {
-        "brand": [
-          {
-            "value": "Dell"
-          }
-        ],
-        "item_name": [
-          {
-            "value": "XPS 13 Laptop"
-          }
-        ]
-      },
-      "webhookUrl": "https://webhook.site/01234567-89ab-cdef-0123-456789abcdef"
-    },
-    "webhookUrl": "https://webhook.site/01234567-89ab-cdef-0123-456789abcdef",
-    "createdAt": "2026-05-22T05:52:23.565Z",
-    "updatedAt": "2026-05-22T05:52:28.592Z"
-  },
-  {
-    "id": "5d2c0bd4-061a-4435-93ee-571e1d32ef0a",
-    "submissionId": "50bb487e-391b-47c4-9d53-a059017544d4",
-    "sellerId": "SELLER001",
-    "sku": "SKU009",
-    "status": "DISCOVERABLE",
-    "payload": {
-      "productType": "LAPTOP",
-      "attributes": {
-        "brand": [
-          {
-            "value": "Dell"
-          }
-        ],
-        "item_name": [
-          {
-            "value": "XPS 13 Laptop"
-          }
-        ]
-      },
-      "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea284896"
-    },
-    "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea284896",
-    "createdAt": "2026-05-22T05:55:55.969Z",
-    "updatedAt": "2026-05-22T05:56:00.993Z"
-  },
-  {
-    "id": "343c22ad-074f-41b1-876c-8f5f5638ecf7",
-    "submissionId": "4e4fce49-2e2e-4b44-b1cb-ebb9e94932de",
-    "sellerId": "SELLER001",
-    "sku": "SKU009",
-    "status": "DISCOVERABLE",
-    "payload": {
-      "productType": "LAPTOP",
-      "attributes": {
-        "brand": [
-          {
-            "value": "Dell"
-          }
-        ],
-        "item_name": [
-          {
-            "value": "XPS 13 Laptop"
-          }
-        ]
-      },
-      "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea284896"
-    },
-    "webhookUrl": "https://webhook.site/81eef07f-20b2-41ea-88da-d773ea284896",
-    "createdAt": "2026-05-22T08:52:27.589Z",
-    "updatedAt": "2026-05-22T08:52:32.608Z"
-  },
-  {
     "id": "cb35bbb0-7577-46e6-a471-7201c2c373d3",
     "submissionId": "14749a8f-18b1-43d4-b48d-a2211dbd16bd",
     "sellerId": "SELLER001",
@@ -408,5 +252,34 @@
     },
     "createdAt": "2026-05-22T11:51:30.007Z",
     "updatedAt": "2026-05-22T11:51:35.032Z"
+  },
+  {
+    "id": "36e8ea2e-fdf4-40cc-89e3-7ef7c03e49b7",
+    "platform": "amazon",
+    "submissionId": "686498b4-fc2b-423e-9435-0f27af81b5f8",
+    "sellerId": "SELLER123",
+    "sku": "TEST001",
+    "status": "DISCOVERABLE",
+    "payload": {
+      "productType": "HEADPHONES",
+      "title": "Wireless Bluetooth Headphones",
+      "brand": "Sony",
+      "price": 99.99,
+      "quantity": 25,
+      "attributes": {
+        "brand": [
+          {
+            "value": "Sony"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "Wireless Bluetooth Headphones"
+          }
+        ]
+      }
+    },
+    "createdAt": "2026-05-22T16:11:39.556Z",
+    "updatedAt": "2026-05-22T16:11:44.585Z"
   }
 ]

@@ -1,0 +1,66 @@
+[
+  {
+    "id": "5f5dfc45-7b2a-4f16-9897-b13124e66eeb",
+    "platform": "google-shopping",
+    "submissionId": "a536712e-4a0a-4f00-9fdc-884fb9df8d10",
+    "sellerId": "SELLER123",
+    "sku": "TEST001",
+    "status": "DISCOVERABLE",
+    "price": 99.99,
+    "quantity": 25,
+    "title": "Wireless Bluetooth Headphones",
+    "brand": "Sony",
+    "payload": {
+      "productType": "HEADPHONES",
+      "title": "Wireless Bluetooth Headphones",
+      "brand": "Sony",
+      "price": 99.99,
+      "quantity": 25,
+      "attributes": {
+        "brand": [
+          {
+            "value": "Sony"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "Wireless Bluetooth Headphones"
+          }
+        ]
+      },
+      "offerId": "GS-TEST001",
+      "googleProductCategory": "Electronics > Audio",
+      "targetCountry": "US",
+      "contentLanguage": "en",
+      "condition": "new",
+      "availability": "in_stock"
+    },
+    "platformFields": {
+      "productType": "HEADPHONES",
+      "title": "Wireless Bluetooth Headphones",
+      "brand": "Sony",
+      "price": 99.99,
+      "quantity": 25,
+      "attributes": {
+        "brand": [
+          {
+            "value": "Sony"
+          }
+        ],
+        "item_name": [
+          {
+            "value": "Wireless Bluetooth Headphones"
+          }
+        ]
+      },
+      "offerId": "GS-TEST001",
+      "googleProductCategory": "Electronics > Audio",
+      "targetCountry": "US",
+      "contentLanguage": "en",
+      "condition": "new",
+      "availability": "in_stock"
+    },
+    "createdAt": "2026-05-22T16:11:55.163Z",
+    "updatedAt": "2026-05-22T16:12:00.200Z"
+  }
+]

@@ -56,3 +56,41 @@ export const ebayListingSchema = listingSchema.extend({
   quantity: z.number().int().nonnegative().optional(),
   title: z.string().optional()
 })
+
+export const googleShoppingListingSchema =
+  listingSchema.extend({
+    offerId: z.string().optional(),
+    googleProductCategory: z.string().optional(),
+    targetCountry: z.string().optional(),
+    contentLanguage: z.string().optional(),
+    condition: z.string().optional(),
+    availability: z.string().optional()
+  })
+
+export const metaMarketplaceListingSchema =
+  listingSchema.extend({
+    facebookCategoryId: z.string().optional(),
+    listingType: z.string().optional(),
+    condition: z.string().optional(),
+    location: z.string().optional(),
+    availability: z.string().optional()
+  })
+
+export const shopifyListingSchema =
+  listingSchema.extend({
+    handle: z.string().optional(),
+    vendor: z.string().optional(),
+    productType: z.string(),
+    tags: z.string().optional(),
+    optionName: z.string().optional(),
+    optionValue: z.string().optional()
+  })
+
+export const etsyListingSchema =
+  listingSchema.extend({
+    taxonomyId: z.string().optional(),
+    whoMade: z.string().optional(),
+    whenMade: z.string().optional(),
+    isSupply: z.boolean().optional(),
+    shippingProfileId: z.string().optional()
+  })

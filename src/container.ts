@@ -11,6 +11,8 @@ import { WalmartListingRepository } from './repositories/walmart-listing-reposit
 import { WalmartListingService } from './services/walmart-listing-service'
 import { EbayListingRepository } from './repositories/ebay-listing-repository'
 import { EbayListingService } from './services/ebay-listing-service'
+import { GenericMarketplaceListingRepository } from './repositories/generic-marketplace-listing-repository'
+import { GenericMarketplaceListingService } from './services/generic-marketplace-listing-service'
 import { ListingStateMachine } from './state-machines/listing-state-machine'
 import { createListingLifecycleQueue } from './queues/queue-factory'
 import { RequestLogRepository } from './repositories/request-log-repository'
@@ -25,6 +27,8 @@ const walmartListingRepository =
   new WalmartListingRepository()
 const ebayListingRepository =
   new EbayListingRepository()
+const genericMarketplaceListingRepository =
+  new GenericMarketplaceListingRepository()
 const inventoryRepository = new InventoryRepository()
 const webhookDeliveryRepository =
   new WebhookDeliveryRepository()
@@ -67,6 +71,14 @@ export const container = {
     eventBus,
     webhookService
   ),
+  genericMarketplaceListings:
+    new GenericMarketplaceListingService(
+      genericMarketplaceListingRepository,
+      new ListingStateMachine(),
+      listingLifecycleQueue,
+      eventBus,
+      webhookService
+    ),
   inventory: new InventoryService(
     inventoryRepository,
     eventBus
@@ -76,6 +88,7 @@ export const container = {
     flipkartListingRepository,
     walmartListingRepository,
     ebayListingRepository,
+    genericMarketplaceListingRepository,
     inventoryRepository,
     eventRepository,
     webhookDeliveryRepository,

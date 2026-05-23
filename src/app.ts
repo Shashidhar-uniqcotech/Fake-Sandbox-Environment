@@ -9,6 +9,7 @@ import { createListingsRouter } from './routes/listings'
 import { createFlipkartRouter } from './routes/flipkart'
 import { createWalmartRouter } from './routes/walmart'
 import { createEbayRouter } from './routes/ebay'
+import { createMarketplaceListingsRouter } from './routes/marketplace-listings'
 import { errorSimulatorMiddleware } from './middleware/error-simulator'
 import { rateLimitMiddleware } from './middleware/rate-limit'
 import { registerErrorHandler } from './middleware/error-handler'
@@ -42,6 +43,12 @@ export const createApp = () => {
   app.route('/', createFlipkartRouter(container.flipkartListings))
   app.route('/', createWalmartRouter(container.walmartListings))
   app.route('/', createEbayRouter(container.ebayListings))
+  app.route(
+    '/',
+    createMarketplaceListingsRouter(
+      container.genericMarketplaceListings
+    )
+  )
   app.route('/', createInventoryRouter(container.inventory))
   app.route('/', createDashboardRouter(container.dashboard))
 

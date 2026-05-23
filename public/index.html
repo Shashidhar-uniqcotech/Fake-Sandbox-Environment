@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Marketplace Sandbox Console</title>
-    <link rel="stylesheet" href="/app.css" />
+    <link rel="stylesheet" href="/app.css?v=3" />
   </head>
   <body>
     <aside class="sidebar">
@@ -105,9 +105,14 @@
               <div class="form-row">
                 <label>Platform</label>
                 <select name="platform" id="platformSelect">
+                  <option value="amazon">Amazon</option>
                   <option value="flipkart">Flipkart</option>
                   <option value="walmart">Walmart</option>
                   <option value="ebay">eBay</option>
+                  <option value="google-shopping">Google Shopping</option>
+                  <option value="meta-marketplace">Meta Marketplace</option>
+                  <option value="shopify">Shopify</option>
+                  <option value="etsy">Etsy</option>
                 </select>
               </div>
               <div class="form-row">
@@ -183,6 +188,128 @@
                   <input name="buyItNowPrice" type="number" min="0" step="0.01" value="109.99" />
                 </div>
               </div>
+              <div class="platform-fields" data-platform-fields="google-shopping">
+                <div class="form-row">
+                  <label>Offer ID</label>
+                  <input name="offerId" value="GS-TEST001" />
+                </div>
+                <div class="form-row">
+                  <label>Google category</label>
+                  <input name="googleProductCategory" value="Electronics &gt; Audio" />
+                </div>
+                <div class="form-row">
+                  <label>Target country</label>
+                  <input name="targetCountry" value="US" />
+                </div>
+                <div class="form-row">
+                  <label>Language</label>
+                  <input name="contentLanguage" value="en" />
+                </div>
+                <div class="form-row">
+                  <label>Condition</label>
+                  <select name="googleCondition">
+                    <option value="new">New</option>
+                    <option value="refurbished">Refurbished</option>
+                    <option value="used">Used</option>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <label>Availability</label>
+                  <select name="googleAvailability">
+                    <option value="in_stock">In stock</option>
+                    <option value="out_of_stock">Out of stock</option>
+                    <option value="preorder">Preorder</option>
+                  </select>
+                </div>
+              </div>
+              <div class="platform-fields" data-platform-fields="meta-marketplace">
+                <div class="form-row">
+                  <label>Facebook category ID</label>
+                  <input name="facebookCategoryId" value="electronics" />
+                </div>
+                <div class="form-row">
+                  <label>Listing type</label>
+                  <select name="metaListingType">
+                    <option value="marketplace">Marketplace</option>
+                    <option value="shop">Shop</option>
+                    <option value="catalog">Catalog</option>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <label>Condition</label>
+                  <select name="metaCondition">
+                    <option value="new">New</option>
+                    <option value="used_like_new">Used like new</option>
+                    <option value="used_good">Used good</option>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <label>Location</label>
+                  <input name="metaLocation" value="San Francisco, CA" />
+                </div>
+                <div class="form-row">
+                  <label>Availability</label>
+                  <select name="metaAvailability">
+                    <option value="in_stock">In stock</option>
+                    <option value="out_of_stock">Out of stock</option>
+                  </select>
+                </div>
+              </div>
+              <div class="platform-fields" data-platform-fields="shopify">
+                <div class="form-row">
+                  <label>Handle</label>
+                  <input name="shopifyHandle" value="wireless-bluetooth-headphones" />
+                </div>
+                <div class="form-row">
+                  <label>Vendor</label>
+                  <input name="shopifyVendor" value="Sony" />
+                </div>
+                <div class="form-row">
+                  <label>Tags</label>
+                  <input name="shopifyTags" value="audio, bluetooth, headphones" />
+                </div>
+                <div class="form-row">
+                  <label>Option name</label>
+                  <input name="shopifyOptionName" value="Color" />
+                </div>
+                <div class="form-row">
+                  <label>Option value</label>
+                  <input name="shopifyOptionValue" value="Black" />
+                </div>
+              </div>
+              <div class="platform-fields" data-platform-fields="etsy">
+                <div class="form-row">
+                  <label>Taxonomy ID</label>
+                  <input name="etsyTaxonomyId" value="69150467" />
+                </div>
+                <div class="form-row">
+                  <label>Who made</label>
+                  <select name="etsyWhoMade">
+                    <option value="i_did">I did</option>
+                    <option value="someone_else">Someone else</option>
+                    <option value="collective">Collective</option>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <label>When made</label>
+                  <select name="etsyWhenMade">
+                    <option value="made_to_order">Made to order</option>
+                    <option value="2020_2026">2020-2026</option>
+                    <option value="2010_2019">2010-2019</option>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <label>Supply item</label>
+                  <select name="etsyIsSupply">
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <label>Shipping profile ID</label>
+                  <input name="etsyShippingProfileId" value="standard-us" />
+                </div>
+              </div>
               <div class="form-row">
                 <label>Item name</label>
                 <input name="itemName" value="Wireless Bluetooth Headphones" required />
@@ -229,9 +356,14 @@
               <div class="form-row">
                 <label>Platform</label>
                 <select name="platform" id="inventoryPlatform">
+                  <option value="amazon">Amazon</option>
                   <option value="flipkart">Flipkart</option>
                   <option value="walmart">Walmart</option>
                   <option value="ebay">eBay</option>
+                  <option value="google-shopping">Google Shopping</option>
+                  <option value="meta-marketplace">Meta Marketplace</option>
+                  <option value="shopify">Shopify</option>
+                  <option value="etsy">Etsy</option>
                 </select>
               </div>
               <div class="form-row">
@@ -252,14 +384,21 @@
             </div>
             <div class="lookup-row">
               <select id="inventoryLookupPlatform">
+                <option value="amazon">Amazon</option>
                 <option value="flipkart">Flipkart</option>
                 <option value="walmart">Walmart</option>
                 <option value="ebay">eBay</option>
+                <option value="google-shopping">Google Shopping</option>
+                <option value="meta-marketplace">Meta Marketplace</option>
+                <option value="shopify">Shopify</option>
+                <option value="etsy">Etsy</option>
               </select>
               <input id="inventoryLookupSku" value="TEST001" />
               <button id="inventoryLookupButton" class="primary-button">Lookup</button>
             </div>
-            <pre id="inventoryResult" class="result-box">{}</pre>
+            <div id="inventoryResult" class="inventory-result">
+              <p class="empty-state">Lookup or update inventory to see stock details.</p>
+            </div>
           </section>
         </div>
       </section>

@@ -2,22 +2,35 @@ import { ListingLifecycleQueue } from '../queues/queue.types'
 import { EventRepository } from '../repositories/event-repository'
 import { EbayListingRepository } from '../repositories/ebay-listing-repository'
 import { FlipkartListingRepository } from '../repositories/flipkart-listing-repository'
+import { GenericMarketplaceListingRepository } from '../repositories/generic-marketplace-listing-repository'
 import { InventoryRepository } from '../repositories/inventory-repository'
 import { ListingRepository } from '../repositories/listing-repository'
 import { WalmartListingRepository } from '../repositories/walmart-listing-repository'
 import { WebhookDeliveryRepository } from '../repositories/webhook-delivery-repository'
-import { EbayListing, FlipkartListing, Listing, WalmartListing } from '../types/listing'
+import {
+  EbayListing,
+  FlipkartListing,
+  GenericMarketplaceListing,
+  Listing,
+  WalmartListing
+} from '../types/listing'
 
 type MarketplaceListing =
   | Listing
   | FlipkartListing
   | WalmartListing
   | EbayListing
+  | GenericMarketplaceListing
 
 const marketplacePlatforms = [
+  'amazon',
   'flipkart',
   'walmart',
-  'ebay'
+  'ebay',
+  'google-shopping',
+  'meta-marketplace',
+  'shopify',
+  'etsy'
 ] as const
 
 type MarketplacePlatform =
@@ -29,6 +42,8 @@ export class DashboardService {
     private readonly flipkartListings: FlipkartListingRepository,
     private readonly walmartListings: WalmartListingRepository,
     private readonly ebayListings: EbayListingRepository,
+    private readonly genericMarketplaceListings:
+      GenericMarketplaceListingRepository,
     private readonly inventory: InventoryRepository,
     private readonly events: EventRepository,
     private readonly webhookDeliveries: WebhookDeliveryRepository,
@@ -60,6 +75,12 @@ export class DashboardService {
         .map(listing => ({
           ...listing,
           platform: listing.platform ?? 'ebay'
+        })),
+      ...this.genericMarketplaceListings
+        .findAll()
+        .map(listing => ({
+          ...listing,
+          platform: listing.platform
         }))
     ]
   }
@@ -85,9 +106,14 @@ export class DashboardService {
           return acc
         },
         {
+          amazon: 0,
           flipkart: 0,
           walmart: 0,
-          ebay: 0
+          ebay: 0,
+          'google-shopping': 0,
+          'meta-marketplace': 0,
+          shopify: 0,
+          etsy: 0
         }
       )
     const inventoryByPlatform =
@@ -99,9 +125,14 @@ export class DashboardService {
           return acc
         },
         {
+          amazon: 0,
           flipkart: 0,
           walmart: 0,
-          ebay: 0
+          ebay: 0,
+          'google-shopping': 0,
+          'meta-marketplace': 0,
+          shopify: 0,
+          etsy: 0
         }
       )
     const webhooksByPlatform =
@@ -113,9 +144,14 @@ export class DashboardService {
           return acc
         },
         {
+          amazon: 0,
           flipkart: 0,
           walmart: 0,
-          ebay: 0
+          ebay: 0,
+          'google-shopping': 0,
+          'meta-marketplace': 0,
+          shopify: 0,
+          etsy: 0
         }
       )
 
@@ -160,6 +196,7 @@ export class DashboardService {
       sku: listing.sku,
       sellerId: listing.sellerId,
       status: listing.status,
+      createdAt: listing.createdAt,
       updatedAt: listing.updatedAt
     }))
   }
