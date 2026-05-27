@@ -1,82 +1,105 @@
+import { prisma } from '../database/prisma'
 import { FlipkartListing } from '../types/listing'
-import { JsonFileStore } from '../utils/json-file-store'
+import { mapFlipkartListing } from './prisma-mappers'
 
 export class FlipkartListingRepository {
-  private readonly store = new JsonFileStore<FlipkartListing[]>(
-    'src/db/listings_flipkart.json',
-    []
-  )
-
-  findAll() {
-    return this.store.read()
-  }
-
-  findBySku(sku: string) {
-    return this.findAll().find(
-      listing => listing.sku === sku
-    )
-  }
-
-  save(listing: FlipkartListing) {
-    this.store.update(listings => {
-      const withoutCurrent = listings.filter(
-        item => item.id !== listing.id
-      )
-
-      return [
-        ...withoutCurrent,
-        listing
-      ]
+  async findAll() {
+    const listings = await prisma.flipkartListing.findMany({
+      orderBy: { createdAt: 'desc' }
     })
 
-    return listing
+    return listings.map(mapFlipkartListing)
   }
 
-  updateStatus(id: string, status: FlipkartListing['status']) {
-    let updated: FlipkartListing | undefined
+  async findBySku(sku: string) {
+    const listing = await prisma.flipkartListing.findFirst({
+      where: { sku }
+    })
 
-    this.store.update(listings =>
-      listings.map(listing => {
-        if (listing.id !== id) {
-          return listing
-        }
+    return listing ? mapFlipkartListing(listing) : undefined
+  }
 
-        updated = {
-          ...listing,
-          status,
-          updatedAt: new Date().toISOString()
-        }
-
-        return updated
+  async findBySellerSku(sellerId: string, sku: string) {
+    const listing =
+      await prisma.flipkartListing.findUnique({
+        where: { sellerId_sku: { sellerId, sku } }
       })
-    )
 
-    return updated
+    return listing ? mapFlipkartListing(listing) : undefined
   }
 
-  deleteBySku(sku: string) {
-    const before = this.findAll()
+  async findById(id: string) {
+    const listing = await prisma.flipkartListing.findUnique({
+      where: { id }
+    })
 
-    this.store.write(
-      before.filter(
-        listing => listing.sku !== sku
-      )
-    )
-
-    return before.length !== this.findAll().length
+    return listing ? mapFlipkartListing(listing) : undefined
   }
 
-  deleteById(id: string) {
-    const before = this.findAll()
+  async save(listing: FlipkartListing) {
+    const saved = await prisma.flipkartListing.upsert({
+      where: { id: listing.id },
+      create: {
+        id: listing.id,
+        sellerId: listing.sellerId,
+        sku: listing.sku,
+        channelSkuId: listing.channelSkuId,
+        productId: listing.productId,
+        submissionId: listing.submissionId,
+        status: listing.status,
+        price: listing.price,
+        quantity: listing.quantity,
+        hsn: listing.hsn,
+        gstRate: listing.gstRate,
+        fulfillment: listing.fulfillment,
+        payload: listing.payload as any,
+        webhookUrl: listing.webhookUrl
+      },
+      update: {
+        sellerId: listing.sellerId,
+        sku: listing.sku,
+        channelSkuId: listing.channelSkuId,
+        productId: listing.productId,
+        status: listing.status,
+        price: listing.price,
+        quantity: listing.quantity,
+        hsn: listing.hsn,
+        gstRate: listing.gstRate,
+        fulfillment: listing.fulfillment,
+        payload: listing.payload as any,
+        webhookUrl: listing.webhookUrl
+      }
+    })
 
-    this.store.write(
-      before.filter(
-        listing => listing.id !== id
-      )
-    )
+    return mapFlipkartListing(saved)
+  }
 
-    return before.some(
-      listing => listing.id === id
-    )
+  async updateStatus(id: string, status: FlipkartListing['status']) {
+    try {
+      const listing = await prisma.flipkartListing.update({
+        where: { id },
+        data: { status }
+      })
+
+      return mapFlipkartListing(listing)
+    } catch {
+      return undefined
+    }
+  }
+
+  async deleteBySku(sku: string) {
+    const result = await prisma.flipkartListing.deleteMany({
+      where: { sku }
+    })
+
+    return result.count > 0
+  }
+
+  async deleteById(id: string) {
+    const result = await prisma.flipkartListing.deleteMany({
+      where: { id }
+    })
+
+    return result.count > 0
   }
 }

@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import { ListingService } from '../services/listing-service'
 import { listingSchema } from '../validators/listing-validator'
+import { parseJsonBody } from './request-json'
 
 export const createListingsRouter = (
   listings: ListingService
@@ -10,8 +11,13 @@ export const createListingsRouter = (
   app.put(
     '/listings/2021-08-01/items/:sellerId/:sku',
     async c => {
-      const body = await c.req.json()
-      const result = listingSchema.safeParse(body)
+      const body = await parseJsonBody(c)
+
+      if (!body.ok) {
+        return body.response
+      }
+
+      const result = listingSchema.safeParse(body.data)
 
       if (!result.success) {
         return c.json(
@@ -23,9 +29,21 @@ export const createListingsRouter = (
         )
       }
 
+      const sellerId = c.req.param('sellerId')
+      const sku = c.req.param('sku')
+      const existing =
+        await listings.findBySellerSku(sellerId, sku)
+
+      if (existing) {
+        return c.json(
+          { message: 'Listing already exists' },
+          409
+        )
+      }
+
       const listing = await listings.create({
-        sellerId: c.req.param('sellerId'),
-        sku: c.req.param('sku'),
+        sellerId,
+        sku,
         payload: result.data,
         webhookUrl: result.data.webhookUrl
       })
@@ -38,12 +56,12 @@ export const createListingsRouter = (
     }
   )
 
-  app.get('/listings', c =>
-    c.json(listings.findAll())
+  app.get('/listings', async c =>
+    c.json(await listings.findAll())
   )
 
-  app.get('/listings/:sku', c => {
-    const listing = listings.findBySku(
+  app.get('/listings/:sku', async c => {
+    const listing = await listings.findBySku(
       c.req.param('sku')
     )
 
@@ -57,8 +75,8 @@ export const createListingsRouter = (
     return c.json(listing)
   })
 
-  app.delete('/listings/id/:id', c => {
-    const deleted = listings.deleteById(
+  app.delete('/listings/id/:id', async c => {
+    const deleted = await listings.deleteById(
       c.req.param('id')
     )
 
@@ -74,8 +92,8 @@ export const createListingsRouter = (
     })
   })
 
-  app.delete('/listings/:sku', c => {
-    const deleted = listings.deleteBySku(
+  app.delete('/listings/:sku', async c => {
+    const deleted = await listings.deleteBySku(
       c.req.param('sku')
     )
 

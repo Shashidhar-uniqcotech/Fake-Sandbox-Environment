@@ -16,19 +16,19 @@ export class InventoryService {
     return this.inventory.findBySku(platform, sku)
   }
 
-  updateQuantity(
+  async updateQuantity(
     platform: InventoryItem['platform'],
     sku: string,
     quantity: number
   ) {
-    const item = this.inventory.upsert({
+    const item = await this.inventory.upsert({
       platform,
       sku,
       quantity,
       updatedAt: new Date().toISOString()
     })
 
-    this.events.publish({
+    await this.events.publish({
       event: 'INVENTORY_UPDATED',
       resourceType: 'inventory',
       resourceId: `${platform}:${sku}`,

@@ -12,6 +12,7 @@ import {
   temuListingSchema
 } from '../validators/listing-validator'
 import { GenericMarketplaceListing } from '../types/listing'
+import { parseJsonBody } from './request-json'
 
 const schemas = {
   'google-shopping': googleShoppingListingSchema,
@@ -48,9 +49,14 @@ export const createMarketplaceListingsRouter = (
       )
     }
 
-    const body = await c.req.json()
+    const body = await parseJsonBody(c)
+
+    if (!body.ok) {
+      return body.response
+    }
+
     const result =
-      schemas[platform].safeParse(body)
+      schemas[platform].safeParse(body.data)
 
     if (!result.success) {
       return c.json(
@@ -62,10 +68,26 @@ export const createMarketplaceListingsRouter = (
       )
     }
 
+    const sellerId = c.req.param('sellerId')
+    const sku = c.req.param('sku')
+    const existing =
+      await listings.findByPlatformSellerSku(
+        platform,
+        sellerId,
+        sku
+      )
+
+    if (existing) {
+      return c.json(
+        { message: 'Listing already exists' },
+        409
+      )
+    }
+
     const listing = await listings.create({
       platform,
-      sellerId: c.req.param('sellerId'),
-      sku: c.req.param('sku'),
+      sellerId,
+      sku,
       payload: result.data,
       webhookUrl: result.data.webhookUrl,
       price: result.data.price,
@@ -82,7 +104,7 @@ export const createMarketplaceListingsRouter = (
     })
   })
 
-  app.get('/:platform/listings', c => {
+  app.get('/:platform/listings', async c => {
     const platform = c.req.param('platform')
 
     if (!isGenericPlatform(platform)) {
@@ -92,16 +114,16 @@ export const createMarketplaceListingsRouter = (
       )
     }
 
+    const allListings = await listings.findAll()
+
     return c.json(
-      listings
-        .findAll()
-        .filter(
-          listing => listing.platform === platform
-        )
+      allListings.filter(
+        listing => listing.platform === platform
+      )
     )
   })
 
-  app.get('/:platform/listings/:sku', c => {
+  app.get('/:platform/listings/:sku', async c => {
     const platform = c.req.param('platform')
 
     if (!isGenericPlatform(platform)) {
@@ -111,9 +133,7 @@ export const createMarketplaceListingsRouter = (
       )
     }
 
-    const listing = listings
-      .findAll()
-      .find(
+    const listing = (await listings.findAll()).find(
         item =>
           item.platform === platform &&
           item.sku === c.req.param('sku')
@@ -129,7 +149,7 @@ export const createMarketplaceListingsRouter = (
     return c.json(listing)
   })
 
-  app.delete('/:platform/listings/id/:id', c => {
+  app.delete('/:platform/listings/id/:id', async c => {
     const platform = c.req.param('platform')
 
     if (!isGenericPlatform(platform)) {
@@ -139,9 +159,7 @@ export const createMarketplaceListingsRouter = (
       )
     }
 
-    const listing = listings
-      .findAll()
-      .find(
+    const listing = (await listings.findAll()).find(
         item =>
           item.platform === platform &&
           item.id === c.req.param('id')
@@ -154,14 +172,14 @@ export const createMarketplaceListingsRouter = (
       )
     }
 
-    listings.deleteById(listing.id)
+    await listings.deleteById(listing.id)
 
     return c.json({
       message: 'Deleted successfully'
     })
   })
 
-  app.delete('/:platform/listings/:sku', c => {
+  app.delete('/:platform/listings/:sku', async c => {
     const platform = c.req.param('platform')
 
     if (!isGenericPlatform(platform)) {
@@ -171,9 +189,7 @@ export const createMarketplaceListingsRouter = (
       )
     }
 
-    const listing = listings
-      .findAll()
-      .find(
+    const listing = (await listings.findAll()).find(
         item =>
           item.platform === platform &&
           item.sku === c.req.param('sku')
@@ -186,7 +202,7 @@ export const createMarketplaceListingsRouter = (
       )
     }
 
-    listings.deleteById(listing.id)
+    await listings.deleteById(listing.id)
 
     return c.json({
       message: 'Deleted successfully'

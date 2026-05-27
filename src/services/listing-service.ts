@@ -36,9 +36,9 @@ export class ListingService {
       updatedAt: now
     }
 
-    this.listings.save(listing)
+    await this.listings.save(listing)
 
-    this.events.publish({
+    await this.events.publish({
       event: 'LISTING_CREATED',
       resourceType: 'listing',
       resourceId: listing.id,
@@ -67,6 +67,10 @@ export class ListingService {
     return this.listings.findBySku(sku)
   }
 
+  findBySellerSku(sellerId: string, sku: string) {
+    return this.listings.findBySellerSku(sellerId, sku)
+  }
+
   deleteBySku(sku: string) {
     return this.listings.deleteBySku(sku)
   }
@@ -76,36 +80,30 @@ export class ListingService {
   }
 
   private async advanceLifecycle(listingId: string) {
-    const listing = this.listings
-      .findAll()
-      .find(item => item.id === listingId)
+    const listing = await this.listings.findById(listingId)
 
     if (!listing) {
       return
     }
 
-    this.transition(listing, 'VALIDATING')
-    const validating = this.listings
-      .findAll()
-      .find(item => item.id === listingId)
+    await this.transition(listing, 'VALIDATING')
+    const validating = await this.listings.findById(listingId)
 
     if (!validating) {
       return
     }
 
-    this.transition(validating, 'PROCESSING')
-    const processing = this.listings
-      .findAll()
-      .find(item => item.id === listingId)
+    await this.transition(validating, 'PROCESSING')
+    const processing = await this.listings.findById(listingId)
 
     if (!processing) {
       return
     }
 
     const discoverable =
-      this.transition(processing, 'DISCOVERABLE')
+      await this.transition(processing, 'DISCOVERABLE')
 
-    this.events.publish({
+    await this.events.publish({
       event: 'LISTING_DISCOVERABLE',
       resourceType: 'listing',
       resourceId: discoverable.id,
@@ -127,7 +125,7 @@ export class ListingService {
     }
   }
 
-  private transition(
+  private async transition(
     listing: Listing,
     nextStatus: ListingStatus
   ) {
@@ -136,7 +134,7 @@ export class ListingService {
       nextStatus
     )
 
-    const updated = this.listings.updateStatus(
+    const updated = await this.listings.updateStatus(
       listing.id,
       nextStatus
     )
@@ -148,7 +146,7 @@ export class ListingService {
     }
 
     if (nextStatus === 'PROCESSING') {
-      this.events.publish({
+      await this.events.publish({
         event: 'LISTING_VALIDATED',
         resourceType: 'listing',
         resourceId: listing.id,

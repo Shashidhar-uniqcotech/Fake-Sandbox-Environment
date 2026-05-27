@@ -28,7 +28,7 @@ export class WebhookService {
       updatedAt: new Date().toISOString()
     }
 
-    this.deliveries.save(delivery)
+    await this.deliveries.save(delivery)
 
     for (
       let attempt = 1;
@@ -69,10 +69,10 @@ export class WebhookService {
           updatedAt: new Date().toISOString()
         }
 
-        this.deliveries.save(delivery)
+        await this.deliveries.save(delivery)
 
         if (response.ok) {
-          this.events.publish({
+          await this.events.publish({
             event: 'WEBHOOK_DELIVERED',
             resourceType: 'webhook',
             resourceId: delivery.id,
@@ -94,7 +94,7 @@ export class WebhookService {
           updatedAt: new Date().toISOString()
         }
 
-        this.deliveries.save(delivery)
+        await this.deliveries.save(delivery)
       }
 
       if (attempt < env.webhook.maxAttempts) {
@@ -102,7 +102,7 @@ export class WebhookService {
       }
     }
 
-    this.events.publish({
+    await this.events.publish({
       event: 'WEBHOOK_FAILED',
       resourceType: 'webhook',
       resourceId: delivery.id,

@@ -47,9 +47,9 @@ export class GenericMarketplaceListingService {
       updatedAt: now
     }
 
-    this.listings.save(listing)
+    await this.listings.save(listing)
 
-    this.events.publish({
+    await this.events.publish({
       event: 'LISTING_CREATED',
       resourceType: 'listing',
       resourceId: listing.id,
@@ -79,6 +79,18 @@ export class GenericMarketplaceListingService {
     return this.listings.findBySku(sku)
   }
 
+  findByPlatformSellerSku(
+    platform: GenericMarketplaceListing['platform'],
+    sellerId: string,
+    sku: string
+  ) {
+    return this.listings.findByPlatformSellerSku(
+      platform,
+      sellerId,
+      sku
+    )
+  }
+
   deleteBySku(sku: string) {
     return this.listings.deleteBySku(sku)
   }
@@ -88,36 +100,30 @@ export class GenericMarketplaceListingService {
   }
 
   private async advanceLifecycle(listingId: string) {
-    const listing = this.listings
-      .findAll()
-      .find(item => item.id === listingId)
+    const listing = await this.listings.findById(listingId)
 
     if (!listing) {
       return
     }
 
-    this.transition(listing, 'VALIDATING')
-    const validating = this.listings
-      .findAll()
-      .find(item => item.id === listingId)
+    await this.transition(listing, 'VALIDATING')
+    const validating = await this.listings.findById(listingId)
 
     if (!validating) {
       return
     }
 
-    this.transition(validating, 'PROCESSING')
-    const processing = this.listings
-      .findAll()
-      .find(item => item.id === listingId)
+    await this.transition(validating, 'PROCESSING')
+    const processing = await this.listings.findById(listingId)
 
     if (!processing) {
       return
     }
 
     const discoverable =
-      this.transition(processing, 'DISCOVERABLE')
+      await this.transition(processing, 'DISCOVERABLE')
 
-    this.events.publish({
+    await this.events.publish({
       event: 'LISTING_DISCOVERABLE',
       resourceType: 'listing',
       resourceId: discoverable.id,
@@ -141,7 +147,7 @@ export class GenericMarketplaceListingService {
     }
   }
 
-  private transition(
+  private async transition(
     listing: GenericMarketplaceListing,
     nextStatus: ListingStatus
   ) {
@@ -150,7 +156,7 @@ export class GenericMarketplaceListingService {
       nextStatus
     )
 
-    const updated = this.listings.updateStatus(
+    const updated = await this.listings.updateStatus(
       listing.id,
       nextStatus
     )
@@ -162,7 +168,7 @@ export class GenericMarketplaceListingService {
     }
 
     if (nextStatus === 'PROCESSING') {
-      this.events.publish({
+      await this.events.publish({
         event: 'LISTING_VALIDATED',
         resourceType: 'listing',
         resourceId: listing.id,

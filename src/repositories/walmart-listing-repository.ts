@@ -1,82 +1,105 @@
+import { prisma } from '../database/prisma'
 import { WalmartListing } from '../types/listing'
-import { JsonFileStore } from '../utils/json-file-store'
+import { mapWalmartListing } from './prisma-mappers'
 
 export class WalmartListingRepository {
-  private readonly store = new JsonFileStore<WalmartListing[]>(
-    'src/db/listings_walmart.json',
-    []
-  )
-
-  findAll() {
-    return this.store.read()
-  }
-
-  findBySku(sku: string) {
-    return this.findAll().find(
-      listing => listing.sku === sku
-    )
-  }
-
-  save(listing: WalmartListing) {
-    this.store.update(listings => {
-      const withoutCurrent = listings.filter(
-        item => item.id !== listing.id
-      )
-
-      return [
-        ...withoutCurrent,
-        listing
-      ]
+  async findAll() {
+    const listings = await prisma.walmartListing.findMany({
+      orderBy: { createdAt: 'desc' }
     })
 
-    return listing
+    return listings.map(mapWalmartListing)
   }
 
-  updateStatus(id: string, status: WalmartListing['status']) {
-    let updated: WalmartListing | undefined
+  async findBySku(sku: string) {
+    const listing = await prisma.walmartListing.findFirst({
+      where: { sku }
+    })
 
-    this.store.update(listings =>
-      listings.map(listing => {
-        if (listing.id !== id) {
-          return listing
-        }
+    return listing ? mapWalmartListing(listing) : undefined
+  }
 
-        updated = {
-          ...listing,
-          status,
-          updatedAt: new Date().toISOString()
-        }
-
-        return updated
+  async findBySellerSku(sellerId: string, sku: string) {
+    const listing =
+      await prisma.walmartListing.findUnique({
+        where: { sellerId_sku: { sellerId, sku } }
       })
-    )
 
-    return updated
+    return listing ? mapWalmartListing(listing) : undefined
   }
 
-  deleteBySku(sku: string) {
-    const before = this.findAll()
+  async findById(id: string) {
+    const listing = await prisma.walmartListing.findUnique({
+      where: { id }
+    })
 
-    this.store.write(
-      before.filter(
-        listing => listing.sku !== sku
-      )
-    )
-
-    return before.length !== this.findAll().length
+    return listing ? mapWalmartListing(listing) : undefined
   }
 
-  deleteById(id: string) {
-    const before = this.findAll()
+  async save(listing: WalmartListing) {
+    const saved = await prisma.walmartListing.upsert({
+      where: { id: listing.id },
+      create: {
+        id: listing.id,
+        sellerId: listing.sellerId,
+        sku: listing.sku,
+        itemId: listing.itemId,
+        submissionId: listing.submissionId,
+        status: listing.status,
+        price: listing.price,
+        quantity: listing.quantity,
+        upc: listing.upc,
+        mpn: listing.mpn,
+        brand: listing.brand,
+        shippingTemplate: listing.shippingTemplate,
+        payload: listing.payload as any,
+        webhookUrl: listing.webhookUrl
+      },
+      update: {
+        sellerId: listing.sellerId,
+        sku: listing.sku,
+        itemId: listing.itemId,
+        status: listing.status,
+        price: listing.price,
+        quantity: listing.quantity,
+        upc: listing.upc,
+        mpn: listing.mpn,
+        brand: listing.brand,
+        shippingTemplate: listing.shippingTemplate,
+        payload: listing.payload as any,
+        webhookUrl: listing.webhookUrl
+      }
+    })
 
-    this.store.write(
-      before.filter(
-        listing => listing.id !== id
-      )
-    )
+    return mapWalmartListing(saved)
+  }
 
-    return before.some(
-      listing => listing.id === id
-    )
+  async updateStatus(id: string, status: WalmartListing['status']) {
+    try {
+      const listing = await prisma.walmartListing.update({
+        where: { id },
+        data: { status }
+      })
+
+      return mapWalmartListing(listing)
+    } catch {
+      return undefined
+    }
+  }
+
+  async deleteBySku(sku: string) {
+    const result = await prisma.walmartListing.deleteMany({
+      where: { sku }
+    })
+
+    return result.count > 0
+  }
+
+  async deleteById(id: string) {
+    const result = await prisma.walmartListing.deleteMany({
+      where: { id }
+    })
+
+    return result.count > 0
   }
 }

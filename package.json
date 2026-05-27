@@ -19,18 +19,14 @@
   "type": "commonjs",
   "dependencies": {
     "@hono/node-server": "^2.0.3",
-    "@hono/zod-openapi": "^1.4.0",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
-    "@scalar/hono-api-reference": "^0.10.16",
     "bullmq": "^5.76.10",
     "dotenv": "^17.4.2",
     "hono": "^4.12.21",
     "ioredis": "^5.10.1",
-    "lowdb": "^7.0.1",
     "pg": "^8.21.0",
-    "uuid": "^14.0.0",
-    "ws": "^8.20.1",
+    "ws": "^8.21.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {

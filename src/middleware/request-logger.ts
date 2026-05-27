@@ -9,7 +9,7 @@ export const requestLoggerMiddleware = (
 
   await next()
 
-  logs.append({
+  await logs.append({
     method: c.req.method,
     url: c.req.url,
     timestamp,

@@ -101,24 +101,18 @@ select {
   color: #ffffff;
 }
 
-.auth-panel {
-  margin-top: auto;
-  display: grid;
-  gap: 8px;
-}
-
-.auth-panel label,
 .form label {
   color: var(--muted);
   font-size: 13px;
   font-weight: 650;
 }
 
-.auth-panel label {
-  color: #c7ceda;
+.form label.is-required::after {
+  content: " *";
+  color: var(--bad);
+  font-weight: 800;
 }
 
-.token-row,
 .lookup-row,
 .topbar-actions {
   display: flex;
@@ -179,20 +173,12 @@ select:hover {
   background-color: #fbfdff;
 }
 
-.icon-button,
 .primary-button,
 .ghost-button {
   border: 0;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 700;
-}
-
-.icon-button {
-  width: 40px;
-  height: 40px;
-  flex: 0 0 40px;
-  background: #ff9900;
 }
 
 .primary-button {
@@ -560,8 +546,7 @@ tr:last-child td {
   transform: translateY(0);
 }
 
-.icon-refresh,
-.icon-save {
+.icon-refresh {
   width: 16px;
   height: 16px;
   display: inline-block;
@@ -575,14 +560,6 @@ tr:last-child td {
   border: 2px solid currentColor;
   border-right-color: transparent;
   border-radius: 50%;
-}
-
-.icon-save::before {
-  content: "";
-  position: absolute;
-  inset: 1px 2px;
-  border: 2px solid #111827;
-  border-radius: 2px;
 }
 
 .delete-button {

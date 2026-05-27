@@ -1,35 +1,50 @@
+import { prisma } from '../database/prisma'
 import { InventoryItem } from '../types/inventory'
-import { JsonFileStore } from '../utils/json-file-store'
+import { mapInventoryItem } from './prisma-mappers'
 
 export class InventoryRepository {
-  private readonly store =
-    new JsonFileStore<InventoryItem[]>(
-      'src/db/inventory.json',
-      []
-    )
+  async findAll() {
+    const items = await prisma.inventoryItem.findMany({
+      orderBy: { updatedAt: 'desc' }
+    })
 
-  findAll() {
-    return this.store.read()
+    return items.map(mapInventoryItem)
   }
 
-  findBySku(platform: InventoryItem['platform'], sku: string) {
-    return this.store.read().find(
-      item =>
-        item.platform === platform &&
-        item.sku === sku
-    )
+  async findBySku(
+    platform: InventoryItem['platform'],
+    sku: string
+  ) {
+    const item = await prisma.inventoryItem.findUnique({
+      where: {
+        platform_sku: {
+          platform,
+          sku
+        }
+      }
+    })
+
+    return item ? mapInventoryItem(item) : undefined
   }
 
-  upsert(item: InventoryItem) {
-    this.store.update(items => [
-      item,
-      ...items.filter(
-        current =>
-          current.platform !== item.platform ||
-          current.sku !== item.sku
-      )
-    ])
+  async upsert(item: InventoryItem) {
+    const saved = await prisma.inventoryItem.upsert({
+      where: {
+        platform_sku: {
+          platform: item.platform,
+          sku: item.sku
+        }
+      },
+      create: {
+        platform: item.platform,
+        sku: item.sku,
+        quantity: item.quantity
+      },
+      update: {
+        quantity: item.quantity
+      }
+    })
 
-    return item
+    return mapInventoryItem(saved)
   }
 }

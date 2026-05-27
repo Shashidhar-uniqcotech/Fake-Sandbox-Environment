@@ -2,6 +2,7 @@ import { Hono } from 'hono'
 import { InventoryService } from '../services/inventory-service'
 import { InventoryItem } from '../types/inventory'
 import { inventoryUpdateSchema } from '../validators/inventory-validator'
+import { parseJsonBody } from './request-json'
 
 const platforms = new Set([
   'amazon',
@@ -27,12 +28,16 @@ const parsePlatform = (value: string) => {
   return value as InventoryItem['platform']
 }
 
+const normalizeSku = (sku: string) => sku.trim()
+
 export const createInventoryRouter = (
   inventory: InventoryService
 ) => {
   const app = new Hono()
 
-  app.get('/inventory', c => c.json(inventory.findAll()))
+  app.get('/inventory', async c =>
+    c.json(await inventory.findAll())
+  )
 
   app.patch('/inventory/:platform/:sku', async c => {
     const platform = parsePlatform(c.req.param('platform'))
@@ -41,9 +46,14 @@ export const createInventoryRouter = (
       return c.json({ message: 'Unsupported platform' }, 400)
     }
 
-    const body = await c.req.json()
+    const body = await parseJsonBody(c)
+
+    if (!body.ok) {
+      return body.response
+    }
+
     const result =
-      inventoryUpdateSchema.safeParse(body)
+      inventoryUpdateSchema.safeParse(body.data)
 
     if (!result.success) {
       return c.json(
@@ -56,24 +66,69 @@ export const createInventoryRouter = (
     }
 
     return c.json(
-      inventory.updateQuantity(
+      await inventory.updateQuantity(
         platform,
-        c.req.param('sku'),
+        normalizeSku(c.req.param('sku')),
         result.data.quantity
       )
     )
   })
 
-  app.get('/inventory/:platform/:sku', c => {
+  app.patch('/inventory/:sku', async c => {
+    const body = await parseJsonBody(c)
+
+    if (!body.ok) {
+      return body.response
+    }
+
+    const result =
+      inventoryUpdateSchema.safeParse(body.data)
+
+    if (!result.success) {
+      return c.json(
+        {
+          message: 'Invalid payload',
+          errors: result.error.issues
+        },
+        400
+      )
+    }
+
+    return c.json(
+      await inventory.updateQuantity(
+        'amazon',
+        normalizeSku(c.req.param('sku')),
+        result.data.quantity
+      )
+    )
+  })
+
+  app.get('/inventory/:platform/:sku', async c => {
     const platform = parsePlatform(c.req.param('platform'))
 
     if (!platform) {
       return c.json({ message: 'Unsupported platform' }, 400)
     }
 
-    const item = inventory.getBySku(
+    const item = await inventory.getBySku(
       platform,
-      c.req.param('sku')
+      normalizeSku(c.req.param('sku'))
+    )
+
+    if (!item) {
+      return c.json(
+        { message: 'Inventory item not found' },
+        404
+      )
+    }
+
+    return c.json(item)
+  })
+
+  app.get('/inventory/:sku', async c => {
+    const item = await inventory.getBySku(
+      'amazon',
+      normalizeSku(c.req.param('sku'))
     )
 
     if (!item) {

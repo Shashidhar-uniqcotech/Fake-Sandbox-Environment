@@ -55,45 +55,57 @@ export class DashboardService {
     private readonly listingQueue: ListingLifecycleQueue
   ) {}
 
-  private findAllListings(): MarketplaceListing[] {
+  private async findAllListings(): Promise<MarketplaceListing[]> {
+    const [
+      listings,
+      flipkartListings,
+      walmartListings,
+      ebayListings,
+      genericMarketplaceListings
+    ] = await Promise.all([
+      this.listings.findAll(),
+      this.flipkartListings.findAll(),
+      this.walmartListings.findAll(),
+      this.ebayListings.findAll(),
+      this.genericMarketplaceListings.findAll()
+    ])
+
     return [
-      ...this.listings
-        .findAll()
-        .map(listing => ({
+      ...listings.map(listing => ({
           ...listing,
           platform: listing.platform ?? 'amazon'
         })),
-      ...this.flipkartListings
-        .findAll()
-        .map(listing => ({
+      ...flipkartListings.map(listing => ({
           ...listing,
           platform: listing.platform ?? 'flipkart'
         })),
-      ...this.walmartListings
-        .findAll()
-        .map(listing => ({
+      ...walmartListings.map(listing => ({
           ...listing,
           platform: listing.platform ?? 'walmart'
         })),
-      ...this.ebayListings
-        .findAll()
-        .map(listing => ({
+      ...ebayListings.map(listing => ({
           ...listing,
           platform: listing.platform ?? 'ebay'
         })),
-      ...this.genericMarketplaceListings
-        .findAll()
-        .map(listing => ({
+      ...genericMarketplaceListings.map(listing => ({
           ...listing,
           platform: listing.platform
         }))
     ]
   }
 
-  getAnalytics() {
-    const listings = this.findAllListings()
-    const inventory = this.inventory.findAll()
-    const webhooks = this.webhookDeliveries.findAll()
+  async getAnalytics() {
+    const [
+      listings,
+      inventory,
+      webhooks,
+      events
+    ] = await Promise.all([
+      this.findAllListings(),
+      this.inventory.findAll(),
+      this.webhookDeliveries.findAll(),
+      this.events.findAll()
+    ])
     const byStatus = listings.reduce<Record<string, number>>(
       (acc, listing) => {
         acc[listing.status] =
@@ -190,17 +202,20 @@ export class DashboardService {
         byPlatform: webhooksByPlatform
       },
       events: {
-        total: this.events.findAll().length
+        total: events.length
       }
     }
   }
 
-  getEvents() {
+  async getEvents() {
     return this.events.findAll()
   }
 
-  getWebhookHistory() {
-    return this.webhookDeliveries.findAll().map(delivery => ({
+  async getWebhookHistory() {
+    const deliveries =
+      await this.webhookDeliveries.findAll()
+
+    return deliveries.map(delivery => ({
       ...delivery,
       platform:
         typeof delivery.payload.platform === 'string'
@@ -209,8 +224,8 @@ export class DashboardService {
     }))
   }
 
-  getProcessingStatus() {
-    return this.findAllListings().map(listing => ({
+  async getProcessingStatus() {
+    return (await this.findAllListings()).map(listing => ({
       id: listing.id,
       platform: listing.platform,
       sku: listing.sku,

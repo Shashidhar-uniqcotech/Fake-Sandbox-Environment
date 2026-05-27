@@ -99,20 +99,12 @@ const state: {
   refreshTimer?: number
   toastTimer?: number
 } = {
-  token:
-    localStorage.getItem('amazonEmulatorToken') ||
-    'fake-token'
+  token: 'fake-token'
 }
 
 const els = {
-  tokenInput:
-    mustFind<HTMLInputElement>('#tokenInput'),
-  saveTokenButton:
-    mustFind<HTMLButtonElement>('#saveTokenButton'),
   refreshButton:
     mustFind<HTMLButtonElement>('#refreshButton'),
-  statusPill:
-    mustFind<HTMLElement>('#statusPill'),
   toast:
     mustFind<HTMLElement>('#toast'),
   navButtons:
@@ -149,8 +141,6 @@ const els = {
     document.querySelectorAll<HTMLElement>(
       '[data-platform-fields]'
     ),
-  reloadListingsButton:
-    mustFind<HTMLButtonElement>('#reloadListingsButton'),
   inventoryForm:
     mustFind<HTMLFormElement>('#inventoryForm'),
   inventoryPlatform:
@@ -168,8 +158,6 @@ const els = {
   webhooksTable:
     mustFind<HTMLTableSectionElement>('#webhooksTable')
 }
-
-els.tokenInput.value = state.token
 
 const api = async <T>(
   path: string,
@@ -201,10 +189,6 @@ const api = async <T>(
   }
 
   return data as T
-}
-
-const setStatus = (text: string) => {
-  els.statusPill.textContent = text
 }
 
 const toast = (message: string) => {
@@ -422,8 +406,6 @@ const renderInventoryError = (
 
 const refresh = async () => {
   try {
-    setStatus('Loading')
-
     const [
       analytics,
       listings,
@@ -455,10 +437,7 @@ const refresh = async () => {
     renderEvents(els.eventLog, events)
     renderListings(listings)
     renderWebhooks(webhooks)
-
-    setStatus('Ready')
   } catch (error) {
-    setStatus('Error')
     toast(
       error instanceof Error
         ? error.message
@@ -483,12 +462,41 @@ const switchTab = (tabId: string) => {
   })
 }
 
+const syncRequiredLabels = () => {
+  els.listingForm
+    .querySelectorAll<HTMLElement>('.form-row')
+    .forEach(row => {
+      const label = row.querySelector('label')
+      const field = row.querySelector<
+        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+      >('input, select, textarea')
+
+      label?.classList.toggle(
+        'is-required',
+        Boolean(field?.required && !field.disabled)
+      )
+    })
+}
+
 const syncPlatformFields = () => {
   els.platformFields.forEach(section => {
-    section.hidden =
+    const shouldHide =
       section.dataset.platformFields !==
       els.platformSelect.value
+
+    section.hidden = shouldHide
+
+    section
+      .querySelectorAll<
+        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+      >('input, select, textarea')
+      .forEach(field => {
+        field.disabled = shouldHide
+        field.required = !shouldHide
+      })
   })
+
+  syncRequiredLabels()
 }
 
 els.navButtons.forEach(button => {
@@ -499,22 +507,7 @@ els.navButtons.forEach(button => {
   })
 })
 
-els.saveTokenButton.addEventListener('click', () => {
-  state.token =
-    els.tokenInput.value.trim() || 'fake-token'
-  localStorage.setItem(
-    'amazonEmulatorToken',
-    state.token
-  )
-  toast('Token saved')
-  void refresh()
-})
-
 els.refreshButton.addEventListener(
-  'click',
-  () => void refresh()
-)
-els.reloadListingsButton.addEventListener(
   'click',
   () => void refresh()
 )
@@ -845,7 +838,7 @@ els.inventoryForm.addEventListener(
       const platform = String(
         form.get('platform')
       ) as InventoryPlatform
-      const sku = String(form.get('sku'))
+      const sku = String(form.get('sku')).trim()
       const quantity = Number(form.get('quantity'))
 
       try {
@@ -896,6 +889,7 @@ els.inventoryLookupButton.addEventListener(
 
 void refresh()
 syncPlatformFields()
+syncRequiredLabels()
 state.refreshTimer = window.setInterval(
   refresh,
   30000

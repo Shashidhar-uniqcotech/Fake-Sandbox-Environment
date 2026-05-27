@@ -1,5 +1,4 @@
-import { env } from '../config/env'
-import { JsonlLogStore } from '../utils/jsonl-log-store'
+import { prisma } from '../database/prisma'
 
 export type RequestLogEntry = {
   method: string
@@ -10,12 +9,15 @@ export type RequestLogEntry = {
 }
 
 export class RequestLogRepository {
-  private readonly store =
-    new JsonlLogStore<RequestLogEntry>(
-      env.requestLogPath
-    )
-
-  append(entry: RequestLogEntry) {
-    this.store.append(entry)
+  async append(entry: RequestLogEntry) {
+    await prisma.requestLog.create({
+      data: {
+        method: entry.method,
+        url: entry.url,
+        timestamp: new Date(entry.timestamp),
+        responseTimeMs: entry.responseTimeMs,
+        statusCode: entry.statusCode
+      }
+    })
   }
 }

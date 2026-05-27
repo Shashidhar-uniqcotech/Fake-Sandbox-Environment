@@ -1,86 +1,94 @@
+import { prisma } from '../database/prisma'
 import { Listing, ListingStatus } from '../types/listing'
-import { JsonFileStore } from '../utils/json-file-store'
+import { mapListing } from './prisma-mappers'
 
 export class ListingRepository {
-  private readonly store =
-    new JsonFileStore<Listing[]>(
-      'src/db/listings.json',
-      []
-    )
-
-  findAll() {
-    return this.store.read()
-  }
-
-  findBySku(sku: string) {
-    return this.findAll().find(
-      listing => listing.sku === sku
-    )
-  }
-
-  save(listing: Listing) {
-    this.store.update(listings => {
-      const withoutCurrent = listings.filter(
-        item => item.id !== listing.id
-      )
-
-      return [
-        ...withoutCurrent,
-        listing
-      ]
+  async findAll() {
+    const listings = await prisma.listing.findMany({
+      orderBy: { createdAt: 'desc' }
     })
 
-    return listing
+    return listings.map(mapListing)
   }
 
-  updateStatus(
+  async findBySku(sku: string) {
+    const listing = await prisma.listing.findFirst({
+      where: { sku }
+    })
+
+    return listing ? mapListing(listing) : undefined
+  }
+
+  async findBySellerSku(sellerId: string, sku: string) {
+    const listing = await prisma.listing.findUnique({
+      where: { sellerId_sku: { sellerId, sku } }
+    })
+
+    return listing ? mapListing(listing) : undefined
+  }
+
+  async findById(id: string) {
+    const listing = await prisma.listing.findUnique({
+      where: { id }
+    })
+
+    return listing ? mapListing(listing) : undefined
+  }
+
+  async save(listing: Listing) {
+    const saved = await prisma.listing.upsert({
+      where: { id: listing.id },
+      create: {
+        id: listing.id,
+        sellerId: listing.sellerId,
+        sku: listing.sku,
+        submissionId: listing.submissionId,
+        status: listing.status,
+        payload: listing.payload as any,
+        webhookUrl: listing.webhookUrl
+      },
+      update: {
+        sellerId: listing.sellerId,
+        sku: listing.sku,
+        submissionId: listing.submissionId,
+        status: listing.status,
+        payload: listing.payload as any,
+        webhookUrl: listing.webhookUrl
+      }
+    })
+
+    return mapListing(saved)
+  }
+
+  async updateStatus(
     id: string,
     status: ListingStatus
   ) {
-    let updated: Listing | undefined
-
-    this.store.update(listings =>
-      listings.map(listing => {
-        if (listing.id !== id) {
-          return listing
-        }
-
-        updated = {
-          ...listing,
-          status,
-          updatedAt: new Date().toISOString()
-        }
-
-        return updated
+    try {
+      const listing = await prisma.listing.update({
+        where: { id },
+        data: { status }
       })
-    )
 
-    return updated
+      return mapListing(listing)
+    } catch {
+      return undefined
+    }
   }
 
-  deleteBySku(sku: string) {
-    const before = this.findAll()
+  async deleteBySku(sku: string) {
+    const result = await prisma.listing.deleteMany({
+      where: { sku }
+    })
 
-    this.store.write(
-      before.filter(
-        listing => listing.sku !== sku
-      )
-    )
-
-    return before.length !== this.findAll().length
+    return result.count > 0
   }
 
-  deleteById(id: string) {
-    const before = this.findAll()
+  async deleteById(id: string) {
+    const result = await prisma.listing.deleteMany({
+      where: { id }
+    })
 
-    this.store.write(
-      before.filter(
-        listing => listing.id !== id
-      )
-    )
-
-    return before.some(
-      listing => listing.id === id
-    )
+    return result.count > 0
   }
 }

@@ -1,85 +1,129 @@
+import { prisma } from '../database/prisma'
 import {
   GenericMarketplaceListing,
   ListingStatus
 } from '../types/listing'
-import { JsonFileStore } from '../utils/json-file-store'
+import { mapGenericMarketplaceListing } from './prisma-mappers'
 
 export class GenericMarketplaceListingRepository {
-  private readonly store =
-    new JsonFileStore<GenericMarketplaceListing[]>(
-      'src/db/listings_marketplace.json',
-      []
-    )
+  async findAll() {
+    const listings =
+      await prisma.genericMarketplaceListing.findMany({
+        orderBy: { createdAt: 'desc' }
+      })
 
-  findAll() {
-    return this.store.read()
+    return listings.map(mapGenericMarketplaceListing)
   }
 
-  findBySku(sku: string) {
-    return this.findAll().find(
-      listing => listing.sku === sku
-    )
-  }
-
-  save(listing: GenericMarketplaceListing) {
-    this.store.update(listings => {
-      const withoutCurrent = listings.filter(
-        item => item.id !== listing.id
-      )
-
-      return [...withoutCurrent, listing]
-    })
+  async findBySku(sku: string) {
+    const listing =
+      await prisma.genericMarketplaceListing.findFirst({
+        where: { sku }
+      })
 
     return listing
+      ? mapGenericMarketplaceListing(listing)
+      : undefined
   }
 
-  updateStatus(id: string, status: ListingStatus) {
-    let updated:
-      | GenericMarketplaceListing
-      | undefined
-
-    this.store.update(listings =>
-      listings.map(listing => {
-        if (listing.id !== id) {
-          return listing
+  async findByPlatformSellerSku(
+    platform: GenericMarketplaceListing['platform'],
+    sellerId: string,
+    sku: string
+  ) {
+    const listing =
+      await prisma.genericMarketplaceListing.findUnique({
+        where: {
+          platform_sellerId_sku: {
+            platform,
+            sellerId,
+            sku
+          }
         }
-
-        updated = {
-          ...listing,
-          status,
-          updatedAt: new Date().toISOString()
-        }
-
-        return updated
       })
-    )
 
-    return updated
+    return listing
+      ? mapGenericMarketplaceListing(listing)
+      : undefined
   }
 
-  deleteBySku(sku: string) {
-    const before = this.findAll()
+  async findById(id: string) {
+    const listing =
+      await prisma.genericMarketplaceListing.findUnique({
+        where: { id }
+      })
 
-    this.store.write(
-      before.filter(
-        listing => listing.sku !== sku
-      )
-    )
-
-    return before.length !== this.findAll().length
+    return listing
+      ? mapGenericMarketplaceListing(listing)
+      : undefined
   }
 
-  deleteById(id: string) {
-    const before = this.findAll()
+  async save(listing: GenericMarketplaceListing) {
+    const saved =
+      await prisma.genericMarketplaceListing.upsert({
+        where: { id: listing.id },
+        create: {
+          id: listing.id,
+          platform: listing.platform,
+          sellerId: listing.sellerId,
+          sku: listing.sku,
+          submissionId: listing.submissionId,
+          status: listing.status,
+          price: listing.price,
+          quantity: listing.quantity,
+          title: listing.title,
+          brand: listing.brand,
+          payload: listing.payload as any,
+          webhookUrl: listing.webhookUrl,
+          platformFields: listing.platformFields as any
+        },
+        update: {
+          platform: listing.platform,
+          sellerId: listing.sellerId,
+          sku: listing.sku,
+          status: listing.status,
+          price: listing.price,
+          quantity: listing.quantity,
+          title: listing.title,
+          brand: listing.brand,
+          payload: listing.payload as any,
+          webhookUrl: listing.webhookUrl,
+          platformFields: listing.platformFields as any
+        }
+      })
 
-    this.store.write(
-      before.filter(
-        listing => listing.id !== id
-      )
-    )
+    return mapGenericMarketplaceListing(saved)
+  }
 
-    return before.some(
-      listing => listing.id === id
-    )
+  async updateStatus(id: string, status: ListingStatus) {
+    try {
+      const listing =
+        await prisma.genericMarketplaceListing.update({
+          where: { id },
+          data: { status }
+        })
+
+      return mapGenericMarketplaceListing(listing)
+    } catch {
+      return undefined
+    }
+  }
+
+  async deleteBySku(sku: string) {
+    const result =
+      await prisma.genericMarketplaceListing.deleteMany({
+        where: { sku }
+      })
+
+    return result.count > 0
+  }
+
+  async deleteById(id: string) {
+    const result =
+      await prisma.genericMarketplaceListing.deleteMany({
+        where: { id }
+      })
+
+    return result.count > 0
   }
 }

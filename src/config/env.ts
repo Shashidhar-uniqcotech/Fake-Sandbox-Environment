@@ -61,7 +61,10 @@ export const env = {
   port: numberFromEnv('PORT', 4000),
   authToken: process.env.AUTH_TOKEN ?? 'fake-token',
   queue: {
-    driver: 'local',
+    driver:
+      process.env.QUEUE_DRIVER === 'bullmq'
+        ? 'bullmq'
+        : 'local',
     redis: {
       host: process.env.REDIS_HOST ?? 'localhost',
       port: numberFromEnv('REDIS_PORT', 6379)
@@ -71,15 +74,6 @@ export const env = {
     'LISTING_PROCESSING_DELAY_MS',
     5000
   ),
-  requestLogPath:
-    process.env.REQUEST_LOG_PATH ??
-    'src/logs/request-logs.jsonl',
-  webhookDeliveryLogPath:
-    process.env.WEBHOOK_DELIVERY_LOG_PATH ??
-    'src/logs/webhook-deliveries.json',
-  eventLogPath:
-    process.env.EVENT_LOG_PATH ??
-    'src/logs/events.json',
   rateLimit: {
     windowMs: numberFromEnv(
       'RATE_LIMIT_WINDOW_MS',

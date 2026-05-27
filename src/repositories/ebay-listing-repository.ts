@@ -1,82 +1,104 @@
+import { prisma } from '../database/prisma'
 import { EbayListing } from '../types/listing'
-import { JsonFileStore } from '../utils/json-file-store'
+import { mapEbayListing } from './prisma-mappers'
 
 export class EbayListingRepository {
-  private readonly store = new JsonFileStore<EbayListing[]>(
-    'src/db/listings_ebay.json',
-    []
-  )
-
-  findAll() {
-    return this.store.read()
-  }
-
-  findBySku(sku: string) {
-    return this.findAll().find(
-      listing => listing.sku === sku
-    )
-  }
-
-  save(listing: EbayListing) {
-    this.store.update(listings => {
-      const withoutCurrent = listings.filter(
-        item => item.id !== listing.id
-      )
-
-      return [
-        ...withoutCurrent,
-        listing
-      ]
+  async findAll() {
+    const listings = await prisma.ebayListing.findMany({
+      orderBy: { createdAt: 'desc' }
     })
 
-    return listing
+    return listings.map(mapEbayListing)
   }
 
-  updateStatus(id: string, status: EbayListing['status']) {
-    let updated: EbayListing | undefined
+  async findBySku(sku: string) {
+    const listing = await prisma.ebayListing.findFirst({
+      where: { sku }
+    })
 
-    this.store.update(listings =>
-      listings.map(listing => {
-        if (listing.id !== id) {
-          return listing
-        }
+    return listing ? mapEbayListing(listing) : undefined
+  }
 
-        updated = {
-          ...listing,
-          status,
-          updatedAt: new Date().toISOString()
-        }
+  async findBySellerSku(sellerId: string, sku: string) {
+    const listing = await prisma.ebayListing.findUnique({
+      where: { sellerId_sku: { sellerId, sku } }
+    })
 
-        return updated
+    return listing ? mapEbayListing(listing) : undefined
+  }
+
+  async findById(id: string) {
+    const listing = await prisma.ebayListing.findUnique({
+      where: { id }
+    })
+
+    return listing ? mapEbayListing(listing) : undefined
+  }
+
+  async save(listing: EbayListing) {
+    const saved = await prisma.ebayListing.upsert({
+      where: { id: listing.id },
+      create: {
+        id: listing.id,
+        sellerId: listing.sellerId,
+        sku: listing.sku,
+        itemId: listing.itemId,
+        submissionId: listing.submissionId,
+        status: listing.status,
+        listingType: listing.listingType,
+        startPrice: listing.startPrice,
+        buyItNowPrice: listing.buyItNowPrice,
+        condition: listing.condition,
+        quantity: listing.quantity,
+        title: listing.title,
+        payload: listing.payload as any,
+        webhookUrl: listing.webhookUrl
+      },
+      update: {
+        sellerId: listing.sellerId,
+        sku: listing.sku,
+        itemId: listing.itemId,
+        status: listing.status,
+        listingType: listing.listingType,
+        startPrice: listing.startPrice,
+        buyItNowPrice: listing.buyItNowPrice,
+        condition: listing.condition,
+        quantity: listing.quantity,
+        title: listing.title,
+        payload: listing.payload as any,
+        webhookUrl: listing.webhookUrl
+      }
+    })
+
+    return mapEbayListing(saved)
+  }
+
+  async updateStatus(id: string, status: EbayListing['status']) {
+    try {
+      const listing = await prisma.ebayListing.update({
+        where: { id },
+        data: { status }
       })
-    )
 
-    return updated
+      return mapEbayListing(listing)
+    } catch {
+      return undefined
+    }
   }
 
-  deleteBySku(sku: string) {
-    const before = this.findAll()
+  async deleteBySku(sku: string) {
+    const result = await prisma.ebayListing.deleteMany({
+      where: { sku }
+    })
 
-    this.store.write(
-      before.filter(
-        listing => listing.sku !== sku
-      )
-    )
-
-    return before.length !== this.findAll().length
+    return result.count > 0
   }
 
-  deleteById(id: string) {
-    const before = this.findAll()
+  async deleteById(id: string) {
+    const result = await prisma.ebayListing.deleteMany({
+      where: { id }
+    })
 
-    this.store.write(
-      before.filter(
-        listing => listing.id !== id
-      )
-    )
-
-    return before.some(
-      listing => listing.id === id
-    )
+    return result.count > 0
   }
 }

@@ -7,7 +7,7 @@ export class EventBus {
     private readonly eventRepository: EventRepository
   ) {}
 
-  publish(input: {
+  async publish(input: {
     event: EmulatorEventName
     resourceType: 'listing' | 'inventory' | 'webhook'
     resourceId: string
